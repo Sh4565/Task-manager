@@ -5,9 +5,9 @@ import logging
 from django.conf import settings
 from django.core.management.base import BaseCommand
 
-from apps.bot import dp, bot
-from apps.bot.middlewares import CustomMiddleware, MessageMiddleware
-from apps.bot.handlers import init_routers
+from apps.TelegramBot import dp, bot
+from apps.TelegramBot.middlewares import CustomMiddleware, MessageMiddleware
+from apps.TelegramBot.handlers import init_routers
 
 
 logger = logging.getLogger('run_bot')
@@ -23,7 +23,7 @@ async def run_polling():
 
 
 class Command(BaseCommand):
-    help = 'Telegram bot'
+    help = 'Telegram TelegramBot'
 
     def handle(self, *args, **options):
         try:

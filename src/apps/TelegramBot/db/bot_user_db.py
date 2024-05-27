@@ -4,7 +4,7 @@ import logging
 from aiogram.types import User
 from asgiref.sync import sync_to_async
 
-from apps.bot.models import TelegramUser
+from apps.TelegramBot.models import TelegramUser
 
 
 logger = logging.getLogger(__name__)

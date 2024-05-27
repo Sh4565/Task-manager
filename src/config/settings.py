@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'apps.bot.apps.BotConfig',
+    'apps.TelegramBot.apps.BotConfig',
 ]
 
 MIDDLEWARE = [
@@ -138,7 +138,7 @@ LOGGING = {
     'disable_existing_loggers': False,
     'formatters': {
         'verbose': {
-            'format': '[{asctime}] {levelname}: [{name}] ({filename}) -> {message}',
+            'format': '[{asctime}] {levelname}: [{name}] ({filename}[{funcName}]) -> {message}',
             'style': '{',
         },
         'simple': {

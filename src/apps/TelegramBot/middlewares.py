@@ -4,10 +4,10 @@ import logging
 from pprint import pprint
 from typing import Callable, Dict, Any, Awaitable
 from aiogram import BaseMiddleware
-from aiogram.types import Message
+from aiogram.types import Message, CallbackQuery
 
-from apps.bot.db.bot_message_db import add_message
-from apps.bot.db.bot_user_db import update_of_create_tg_user
+from apps.TelegramBot.db.bot_message_db import add_message
+from apps.TelegramBot.db.bot_user_db import update_of_create_tg_user
 
 
 logger = logging.getLogger(__name__)
@@ -42,10 +42,11 @@ class MessageMiddleware(BaseMiddleware):
         data: Dict[str, Any]
     ) -> Any:
 
-        try:
+        if isinstance(event.message, Message):
             await add_message(event.message)
-        except AttributeError:
-            logger.warning('В базу данных вместо сообщения идет калбэк. ПОЧИНИТЬ!')
+        elif isinstance(event.callback_query, CallbackQuery):
+            logger.debug(event.callback_query.data)
+
         self.counter += 1
         data['counter'] = self.counter
         return await handler(event, data)

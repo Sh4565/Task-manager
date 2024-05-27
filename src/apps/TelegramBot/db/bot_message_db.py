@@ -5,7 +5,7 @@ from pprint import pprint
 from aiogram.types import Message
 from asgiref.sync import sync_to_async
 
-from apps.bot.models import TelegramMessage
+from apps.TelegramBot.models import TelegramMessage
 
 
 logger = logging.getLogger(__name__)
@@ -13,7 +13,6 @@ logger = logging.getLogger(__name__)
 
 @sync_to_async
 def add_message(message: Message):
-
     telegram_message = TelegramMessage.objects.create(
         chat_id=message.chat.id,
         user_id=message.from_user.id,

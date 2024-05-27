@@ -1,21 +1,18 @@
-import calendar
-from pprint import pprint
-from datetime import datetime
 
-fg = calendar.Calendar()
+import time
 
-calendar_list = []
-week_list = []
+text = '15:00-11:30'
 
-for date in fg.itermonthdates(datetime.now().year, datetime.now().month):
-    week_list.append(date.day)
-    # Добавляем неделю в список, когда она полная (7 дней)
-    if len(week_list) == 7:
-        calendar_list.append(week_list)
-        week_list = []
+start_time = text.split('-')[0]
+end_time = text.split('-')[1]
 
-# Добавляем оставшиеся дни последней недели, если есть
-if week_list:
-    calendar_list.append(week_list)
+# if len(start_time) != 4 or len(end_time) != 4:
+#     print('good len')
 
-pprint(calendar_list)
+
+try:
+  valid_start_time = time.strptime(start_time, '%H:%M')
+  valid_end_time = time.strptime(end_time, '%H:%M')
+  print(valid_start_time < valid_end_time)
+except ValueError:
+  print('Invalid date!')
