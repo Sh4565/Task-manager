@@ -40,6 +40,7 @@ class TelegramMessage(models.Model):
 
 class Task(models.Model):
 
+    # id = models.PositiveIntegerField(verbose_name=gettext('ID'), primary_key=True)
     user_id = models.PositiveBigIntegerField(verbose_name=gettext('ID Telegram'), db_index=True)
     date = models.DateField(verbose_name=gettext('Дата задачи'), default=0)
     start_datetime = models.TimeField(verbose_name=gettext('Время начала задачи'), default=0)

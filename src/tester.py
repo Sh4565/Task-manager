@@ -1,18 +1,11 @@
 
-import time
+tasks = ['Task №0', 'Task №1', 'Task №2', 'Task №3', 'Task №4', 'Task №5', 'Task №6', 'Task №7', 'Task №8', 'Task №9', 'Task №10', 'Task №11', 'Task №12', 'Task №13', 'Task №14', 'Task №15', 'Task №16', 'Task №17', 'Task №18', 'Task №19', 'Task №20', 'Task №21', 'Task №22', 'Task №23', 'Task №24']
 
-text = '15:00-11:30'
+buttons = []
 
-start_time = text.split('-')[0]
-end_time = text.split('-')[1]
+for task in tasks:
+    for i in range(5):
+        buttons.append(task)
+    break
 
-# if len(start_time) != 4 or len(end_time) != 4:
-#     print('good len')
-
-
-try:
-  valid_start_time = time.strptime(start_time, '%H:%M')
-  valid_end_time = time.strptime(end_time, '%H:%M')
-  print(valid_start_time < valid_end_time)
-except ValueError:
-  print('Invalid date!')
+print()
