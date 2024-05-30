@@ -18,7 +18,7 @@ services:
 
     django:
         build:
-            context: ..
+            context: ./compose
             dockerfile: Dockerfile-django
         volumes:
             - .:/code
@@ -36,7 +36,7 @@ services:
 
     telegram-bot:
         build:
-            context: ..
+            context: ./compose
             dockerfile: Dockerfile-telegram-bot
         volumes:
             - .:/code
@@ -52,7 +52,7 @@ services:
 
     ngrok:
         build:
-            context: ..
+            context: ./compose
             dockerfile: Dockerfile-ngrok-ngrok
         ports:
             - "4040:4040"
