@@ -49,20 +49,8 @@ services:
             MYSQL_USER: ${MYSQL_USER}
             MYSQL_PASSWORD: ${MYSQL_PASSWORD}
             MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-
-    ngrok:
-        build:
-            context: .
-            dockerfile: Dockerfile-ngrok
         ports:
-            - "4040:4040"
-        depends_on:
-            - django
-        env_file:
-            - .env
-        environment:
-            NGROK_AUTH: ${NGROK_AUTH}
-            NGROK_DOMAIN: ${WEBHOOK_URL}
+            - "5001:5001"
 
 volumes:
     db_data:
