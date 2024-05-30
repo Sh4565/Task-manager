@@ -6,17 +6,16 @@ from django.conf import settings
 from django.core.management.base import BaseCommand
 
 from apps.TelegramBot import dp, bot
-from apps.TelegramBot.middlewares import CustomMiddleware, MessageMiddleware
 from apps.TelegramBot.handlers import init_routers
+from apps.TelegramBot.middlewares import setup_middleware
 
 
-logger = logging.getLogger('run_bot')
+logger = logging.getLogger(__name__)
 logger.setLevel(settings.LOG_LEVEL)
 
 
 async def run_polling():
-    dp.update.outer_middleware(CustomMiddleware())
-    dp.update.middleware(MessageMiddleware())
+    setup_middleware(dp)
     init_routers(dp)
 
     await dp.start_polling(bot)

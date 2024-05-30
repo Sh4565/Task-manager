@@ -9,5 +9,5 @@ other_router = Router()
 @other_router.message()
 async def echo_handler(message: Message, bot: Bot) -> None:
     await message.answer(
-        text='?!'
+        text='Моя не понимать'
     )

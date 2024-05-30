@@ -262,7 +262,7 @@ def reply_check_task_keyboard(date: str) -> InlineKeyboardMarkup:
     return keyboard_markup
 
 
-def reply_list_task_keyboard(date: str, list_tasks: list, parametr: str, page: int = 1) -> InlineKeyboardMarkup:
+def reply_list_task_keyboard(date: str, list_tasks: list, parameter: str, page: int = 1) -> InlineKeyboardMarkup:
     tasks_per_page = 5
     start_index = (page - 1) * tasks_per_page
     end_index = start_index + tasks_per_page
@@ -276,7 +276,7 @@ def reply_list_task_keyboard(date: str, list_tasks: list, parametr: str, page: i
         end_time = task.end_datetime.strftime("%H:%M")
         task_button = InlineKeyboardButton(
             text=f'{start_time}-{end_time} {task.title}',
-            callback_data=f'calendar/day/{parametr}/{task.id}'
+            callback_data=f'calendar/day/{parameter}/{task.id}'
         )
         keyboard_buttons.append([task_button])
 
@@ -284,10 +284,10 @@ def reply_list_task_keyboard(date: str, list_tasks: list, parametr: str, page: i
     navigation_buttons = []
     if page > 1:
         navigation_buttons.append(
-            InlineKeyboardButton(text='<-', callback_data=f'calendar/day/list_{parametr}/{date}/{page - 1}'))
+            InlineKeyboardButton(text='<-', callback_data=f'calendar/day/list_{parameter}/{date}/{page - 1}'))
     if end_index < len(list_tasks):
         navigation_buttons.append(
-            InlineKeyboardButton(text='->', callback_data=f'calendar/day/list_{parametr}/{date}/{page + 1}'))
+            InlineKeyboardButton(text='->', callback_data=f'calendar/day/list_{parameter}/{date}/{page + 1}'))
 
     if navigation_buttons:
         keyboard_buttons.append(navigation_buttons)
@@ -305,7 +305,7 @@ def enter_to_delete(date: str, task_id: int) -> InlineKeyboardMarkup:
 
     keyboard_markup = InlineKeyboardMarkup(inline_keyboard=[
         [
-            InlineKeyboardButton(text='Да', callback_data=f'calendar/day/del_task/{task_id}')
+            InlineKeyboardButton(text='Да', callback_data=f'calendar/day/enter_del_task/{task_id}')
         ],
         [
             InlineKeyboardButton(text='Нет', callback_data=f'calendar/day/{date}')

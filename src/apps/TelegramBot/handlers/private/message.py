@@ -2,13 +2,12 @@
 import time
 import logging
 
-from aiogram import F, Router
+from aiogram import Router
 from aiogram.types import Message
 from aiogram.fsm.context import FSMContext
 
-from apps.TelegramBot.fsm import CreateTask
+from apps.TelegramBot.states import CreateTask
 from apps.TelegramBot.keyboards import callback_data
-from apps.TelegramBot.utils import message_edit_text_keyboard
 
 
 message_router = Router()
@@ -32,7 +31,7 @@ async def create_title_task(message: Message, state: FSMContext) -> None:
             text='Теперь введите описание своей задачи',
             reply_markup=callback_data.reply_return_add_task_keyboard(data['date'])
         )
-    logger.debug(f'Добавленно название {message.text}')
+    logger.debug(f'Добавлено название {message.text}')
     await state.set_state(CreateTask.description)
 
 
@@ -54,7 +53,7 @@ async def create_description_task(message: Message, state: FSMContext) -> None:
             text='Введите промежуток времени отведенное на выполнение задания. \nПример: 09:00-11:30',
             reply_markup=callback_data.reply_return_edit_description_keyboard()
         )
-    logger.debug(f'Добавленно описание {message.text}')
+    logger.debug(f'Добавлено описание {message.text}')
     await state.set_state(CreateTask.time)
 
 
@@ -74,7 +73,7 @@ async def create_description_task(message: Message, state: FSMContext) -> None:
                     text=f'{data["time"]} {data["title"]}\n{data["description"]}\n\nСохранить?',
                     reply_markup=callback_data.reply_check_task_keyboard(data['date'])
                 )
-                logger.debug(f'Добавленно время {message.text}')
+                logger.debug(f'Добавлено время {message.text}')
             else:
                 logger.error(
                     f'Пользователь[{message.from_user.id}] при попытке создать или отредактировать задание ввел время "{message.text}"')

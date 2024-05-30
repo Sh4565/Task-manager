@@ -1,5 +1,4 @@
 
-import time
 import logging
 
 from datetime import date
@@ -7,10 +6,8 @@ from aiogram import F, Router
 from aiogram.types import CallbackQuery
 from aiogram.fsm.context import FSMContext
 
-from apps.TelegramBot.fsm import CreateTask
-from apps.TelegramBot.db.get_task import get_tasks, get_task
-from apps.TelegramBot.db.add_task import add_task
-from apps.TelegramBot.db.del_task import del_task
+from apps.TelegramBot.db import task_methods
+from apps.TelegramBot.states import CreateTask
 from apps.TelegramBot.utils import message_edit_text_keyboard
 from apps.TelegramBot.keyboards import callback_data
 
@@ -197,7 +194,7 @@ async def save_task(callback: CallbackQuery, state: FSMContext) -> None:
     except KeyError:
         task_id = 0
 
-    await add_task(
+    await task_methods.add_task(
         user_id=user_id,
         date=data['date'],
         title=data['title'],
@@ -205,7 +202,7 @@ async def save_task(callback: CallbackQuery, state: FSMContext) -> None:
         description=data['description'],
         task_id=task_id
     )
-    tasks = await get_tasks(user_id, data['date'])
+    tasks = await task_methods.get_tasks(user_id, data['date'])
 
     schedule = ''
     for task in tasks:
@@ -228,7 +225,7 @@ async def list_task_edit(callback: CallbackQuery, state: FSMContext) -> None:
     user_id = callback.from_user.id
     date_schedule = callback.data.split('/')[3]
     page = int(callback.data.split('/')[4])
-    tasks = await get_tasks(user_id, date_schedule)
+    tasks = await task_methods.get_tasks(user_id, date_schedule)
     await message_edit_text_keyboard(
         obj=callback,
         text=f'Выберите задачу которую хотите отформатировать',
@@ -244,7 +241,7 @@ async def list_task_edit(callback: CallbackQuery, state: FSMContext) -> None:
     date_schedule = callback.data.split('/')[3]
     page = int(callback.data.split('/')[4])
     logger.debug(date_schedule)
-    tasks = await get_tasks(user_id, date_schedule)
+    tasks = await task_methods.get_tasks(user_id, date_schedule)
     await message_edit_text_keyboard(
         obj=callback,
         text=f'Выберите задачу которую хотите отформатировать',
@@ -252,7 +249,23 @@ async def list_task_edit(callback: CallbackQuery, state: FSMContext) -> None:
     )
 
 
-@callback_query_router.callback_query(F.data.startswith("calendar/day/del_task/"))
+@callback_query_router.callback_query(F.data.startswith("calendar/day/del_task"))
+async def list_task_edit(callback: CallbackQuery, state: FSMContext) -> None:
+    await state.clear()
+
+    try:
+        task_id = int(callback.data.split('/')[3])
+        task = await task_methods.get_task(task_id, callback.from_user.id)
+        await message_edit_text_keyboard(
+            obj=callback,
+            text=f'Вы действительно хотите удалить "{task.start_datetime}-{task.end_datetime} {task.title}"',
+            reply_markup=callback_data.enter_to_delete(task.date.strftime("%Y-%m-%d"), task_id)
+        )
+    except TypeError:
+        pass
+
+
+@callback_query_router.callback_query(F.data.startswith("calendar/day/enter_del_task/"))
 async def list_task_edit(callback: CallbackQuery, state: FSMContext) -> None:
     await state.clear()
 
@@ -260,10 +273,10 @@ async def list_task_edit(callback: CallbackQuery, state: FSMContext) -> None:
         task_id = int(callback.data.split('/')[3])
 
         user_id = callback.from_user.id
-        task = await get_task(task_id, user_id)
+        task = await task_methods.get_task(task_id, user_id)
         date_schedule = task.date.strftime("%Y-%m-%d")
-        await del_task(task_id, user_id)
-        tasks = await get_tasks(user_id, date_schedule)
+        await task_methods.del_task(task_id, user_id)
+        tasks = await task_methods.get_tasks(user_id, date_schedule)
 
         schedule = ''
         for task in tasks:
@@ -280,23 +293,10 @@ async def list_task_edit(callback: CallbackQuery, state: FSMContext) -> None:
         pass
 
 
-@callback_query_router.callback_query(F.data.startswith("calendar/day/del_task"))
-async def list_task_edit(callback: CallbackQuery, state: FSMContext) -> None:
-    await state.clear()
-
-    task_id = callback.data.split('/')[3]
-    task = await get_task(task_id, callback.from_user.id)
-    await message_edit_text_keyboard(
-        obj=callback,
-        text=f'Вы действительно хотите удалить "{task.start_datetime}-{task.end_datetime} {task.title}"',
-        reply_markup=callback_data.enter_to_delete(task.date.strftime("%Y-%m-%d"))
-    )
-
-
 @callback_query_router.callback_query(F.data.startswith("calendar/day/edit_task/"))
 async def task_edit(callback: CallbackQuery, state: FSMContext) -> None:
     task_id = callback.data.split('/')[3]
-    task = await get_task(task_id, callback.from_user.id)
+    task = await task_methods.get_task(task_id, callback.from_user.id)
     await state.update_data(task_id=task.id)
     await state.update_data(title=task.title)
     await state.update_data(date=task.date.strftime("%Y-%m-%d"))
@@ -317,7 +317,7 @@ async def calendar_day(callback: CallbackQuery, state: FSMContext) -> None:
     await state.clear()
     user_id = callback.from_user.id
     date_schedule = callback.data.split('/')[2]
-    tasks = await get_tasks(user_id, date_schedule)
+    tasks = await task_methods.get_tasks(user_id, date_schedule)
 
     schedule = ''
     for task in tasks:

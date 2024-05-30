@@ -1,13 +1,27 @@
 
 import logging
 
-from aiogram.types import User
 from asgiref.sync import sync_to_async
+from aiogram.types import Message, User
 
-from apps.TelegramBot.models import TelegramUser
+from apps.TelegramBot.models import TelegramMessage, TelegramUser
 
 
 logger = logging.getLogger(__name__)
+
+
+@sync_to_async
+def add_message(message: Message):
+    TelegramMessage.objects.create(
+        chat_id=message.chat.id,
+        user_id=message.from_user.id,
+        message_id=message.message_id,
+        text=message.text,
+        date=message.date
+    )
+
+    date = f'{message.chat.id} {message.from_user.id} {message.message_id} {message.text} {message.date}'
+    logger.debug(f'Сообщение успешно зарегистрировано в БД {date}')
 
 
 @sync_to_async
