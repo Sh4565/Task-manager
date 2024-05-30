@@ -6,6 +6,11 @@ services:
         restart: always
         env_file:
             - .env
+        environment:
+            MYSQL_DATABASE: ${MYSQL_DATABASE}
+            MYSQL_USER: ${MYSQL_USER}
+            MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
         ports:
             - "3306:3306"
         volumes:
@@ -14,7 +19,7 @@ services:
     django:
         build:
             context: .
-            dockerfile: Dockerfile-django
+            dockerfile: compose/Dockerfile-django
         volumes:
             - .:/code
         ports:
@@ -23,17 +28,41 @@ services:
             - db
         env_file:
             - .env
+        environment:
+            MYSQL_DATABASE: ${MYSQL_DATABASE}
+            MYSQL_USER: ${MYSQL_USER}
+            MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
 
     telegram-bot:
         build:
             context: .
-            dockerfile: Dockerfile-telegram-bot
+            dockerfile: compose/Dockerfile-telegram-bot
         volumes:
             - .:/code
         depends_on:
             - db
         env_file:
             - .env
+        environment:
+            MYSQL_DATABASE: ${MYSQL_DATABASE}
+            MYSQL_USER: ${MYSQL_USER}
+            MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+
+    ngrok:
+        build:
+            context: .
+            dockerfile: compose/Dockerfile-ngrok-ngrok
+        ports:
+            - "4040:4040"
+        depends_on:
+            - django
+        env_file:
+            - .env
+        environment:
+            NGROK_AUTH: ${NGROK_AUTH}
+            NGROK_DOMAIN: ${WEBHOOK_URL}
 
 volumes:
     db_data:

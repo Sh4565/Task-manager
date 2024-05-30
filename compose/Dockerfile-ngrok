@@ -1,0 +1,4 @@
+
+FROM wernight/ngrok
+
+ENTRYPOINT ["sh", "-c", "ngrok http --domain=$$NGROK_DOMAIN web:8000"]
