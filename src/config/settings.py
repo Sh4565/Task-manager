@@ -32,7 +32,13 @@ SECRET_KEY = env.str('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool('DEBUG')
 
-ALLOWED_HOSTS = ['212.86.115.52']
+ALLOWED_HOSTS = ['212.86.115.52', 'https://wallaby-dominant-coyote.ngrok-free.app']
+
+WEB_SERVER_HOST = "127.0.0.1"
+WEB_SERVER_PORT = 8080
+
+WEBHOOK_PATH = "/webhook"
+WEBHOOK_URL = env.str('WEBHOOK_URL')
 
 
 # Application definition
