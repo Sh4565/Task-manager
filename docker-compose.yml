@@ -53,7 +53,7 @@ services:
     ngrok:
         build:
             context: .
-            dockerfile: Dockerfile-ngrok-ngrok
+            dockerfile: Dockerfile-ngrok
         ports:
             - "4040:4040"
         depends_on:
