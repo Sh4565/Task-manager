@@ -1,4 +1,4 @@
 
 FROM wernight/ngrok
 
-ENTRYPOINT ["sh", "-c", "ngrok http --domain=$$NGROK_DOMAIN web:8000"]
+ENTRYPOINT ["sh", "-c", "ngrok config add-authtoken $$NGROK_AUTH && ngrok http --domain=$$NGROK_DOMAIN web:8000"]
