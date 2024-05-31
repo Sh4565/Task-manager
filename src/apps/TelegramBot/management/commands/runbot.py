@@ -34,6 +34,7 @@ def run_webhook():
         dispatcher=dp,
         bot=bot,
     )
+
     webhook_requests_handler.register(app, path=settings.WEBHOOK_PATH)
 
     setup_application(app, dp, bot=bot)

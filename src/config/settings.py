@@ -39,9 +39,9 @@ ALLOWED_HOSTS = ['212.86.115.52', 'task-manager-tgbot.site']
 WEB_SERVER_HOST = "0.0.0.0"
 WEB_SERVER_PORT = 8080
 
-WEBHOOK_PATH = "/webhook"
-WEBHOOK_URL = env.str('WEBHOOK_URL')
-
+WEBHOOK_HOST = 'URL'
+WEBHOOK_PATH = '/path/to/api'
+WEBHOOK_URL = f"{env.str('WEBHOOK_URL')}{WEBHOOK_PATH}"
 
 # Application definition
 
