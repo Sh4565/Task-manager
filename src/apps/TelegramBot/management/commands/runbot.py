@@ -45,7 +45,7 @@ class Command(BaseCommand):
     help = 'Telegram TelegramBot'
 
     def add_arguments(self, parser):
-        parser.add_argument("launch", nargs="+", type=int)
+        parser.add_argument("launch", type=str, help='Способ запуска телеграм бота')
 
     def handle(self, *args, **options):
         try:
