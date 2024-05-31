@@ -10,6 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
+import os
+
 from environs import Env
 from pathlib import Path
 
@@ -32,7 +34,7 @@ SECRET_KEY = env.str('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool('DEBUG')
 
-ALLOWED_HOSTS = ['212.86.115.52', 'https://wallaby-dominant-coyote.ngrok-free.app']
+ALLOWED_HOSTS = ['212.86.115.52', 'task-manager-tgbot.site']
 
 WEB_SERVER_HOST = "0.0.0.0"
 WEB_SERVER_PORT = 8080
@@ -133,6 +135,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
