@@ -34,7 +34,7 @@ DEBUG = env.bool('DEBUG')
 
 ALLOWED_HOSTS = ['212.86.115.52', 'https://wallaby-dominant-coyote.ngrok-free.app']
 
-WEB_SERVER_HOST = "127.0.0.1"
+WEB_SERVER_HOST = "0.0.0.0"
 WEB_SERVER_PORT = 8080
 
 WEBHOOK_PATH = "/webhook"
