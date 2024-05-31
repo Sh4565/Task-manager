@@ -10,7 +10,7 @@ from aiogram.webhook.aiohttp_server import SimpleRequestHandler, setup_applicati
 from apps.TelegramBot import dp, bot
 from apps.TelegramBot.handlers import init_routers
 from apps.TelegramBot.middlewares import setup_middleware
-from apps.TelegramBot.webhook import on_startup, on_shutdown
+# from apps.TelegramBot.webhook import on_startup, on_shutdown
 
 
 logger = logging.getLogger(__name__)
@@ -24,11 +24,15 @@ async def run_polling():
     await dp.start_polling(bot)
 
 
+async def on_startup(bot) -> None:
+    await bot.set_webhook(f"{settings.WEBHOOK_URL}{settings.WEBHOOK_PATH}")
+
+
 def run_webhook():
     setup_middleware(dp)
     init_routers(dp)
     dp.startup.register(on_startup)
-    dp.shutdown.register(on_shutdown)
+    # dp.shutdown.register(on_shutdown)
     app = web.Application()
     webhook_requests_handler = SimpleRequestHandler(
         dispatcher=dp,
