@@ -7,16 +7,24 @@ services:
         restart: always
         env_file:
             - .env
+        environment:
+            MYSQL_DATABASE: ${MYSQL_DATABASE}
+            MYSQL_USER: ${MYSQL_USER}
+            MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
         ports:
             - "3306:3306"
         volumes:
             - db_data:/var/lib/mysql
+        networks:
+            - mynetwork
 
     django:
         build:
             context: .
             dockerfile: Dockerfile-django
         command: gunicorn config.wsgi:application --bind 0.0.0.0:8000
+        restart: always
         volumes:
             - static_volume:/static
         ports:
@@ -30,6 +38,8 @@ services:
             MYSQL_USER: ${MYSQL_USER}
             MYSQL_PASSWORD: ${MYSQL_PASSWORD}
             MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+        networks:
+            - mynetwork
 
     telegram-bot:
         build:
@@ -60,3 +70,7 @@ services:
 volumes:
     db_data:
     static_volume:
+
+networks:
+    mynetwork:
+        driver: bridge
