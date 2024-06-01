@@ -21,7 +21,7 @@ async def run_polling():
 
 
 async def on_startup(bot) -> None:
-    await bot.set_webhook(f"{settings.WEBHOOK_URL}{settings.WEBHOOK_PATH}")
+    await bot.set_webhook(f"{settings.WEBHOOK_URL}")
 
 
 def run_webhook():
