@@ -6,9 +6,9 @@ from django.conf import settings
 from django.core.management.base import BaseCommand
 from aiogram.webhook.aiohttp_server import SimpleRequestHandler, setup_application
 
-from apps.TelegramBot import dp, bot
-from apps.TelegramBot.handlers import init_routers
-from apps.TelegramBot.middlewares import setup_middleware
+from apps.task_manager_bot import dp, bot
+from apps.task_manager_bot.handlers import init_routers
+from apps.task_manager_bot.middlewares import setup_middleware
 
 logger = logging.getLogger(__name__)
 logger.setLevel(settings.LOG_LEVEL)

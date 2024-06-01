@@ -2,7 +2,7 @@
 from django.contrib import admin
 from django.contrib.auth.models import User, Group
 
-from apps.TelegramBot.models import TelegramUser, TelegramMessage, Task
+from apps.task_manager_bot.models import TelegramUser, TelegramMessage, Task
 
 
 admin.site.unregister(User)

@@ -4,7 +4,7 @@ import logging
 from datetime import datetime
 from asgiref.sync import sync_to_async
 
-from apps.TelegramBot.models import Task
+from apps.task_manager_bot.models import Task
 
 
 logger = logging.getLogger(__name__)

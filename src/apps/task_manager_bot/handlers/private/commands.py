@@ -5,7 +5,7 @@ from aiogram import Router, Bot
 from aiogram.types import Message
 from aiogram.filters.command import Command
 
-from apps.TelegramBot.keyboards.callback_data import reply_start_keyboard
+from apps.task_manager_bot.keyboards.callback_data import reply_start_keyboard
 
 
 commands_router = Router()

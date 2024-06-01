@@ -3,15 +3,15 @@ import logging
 
 from typing import Callable, Dict, Any, Awaitable
 from aiogram import BaseMiddleware
-from aiogram.types import Message, CallbackQuery
+from aiogram.types import Message
 
-from apps.TelegramBot.db import user_methods
+from apps.task_manager_bot.db import user_methods
 
 
 logger = logging.getLogger(__name__)
 
 
-class MessageMiddleware(BaseMiddleware):
+class UserUpdateMiddleware(BaseMiddleware):
     def __init__(self) -> None:
         self.counter = 0
 
@@ -21,12 +21,9 @@ class MessageMiddleware(BaseMiddleware):
         event: Message,
         data: Dict[str, Any]
     ) -> Any:
+        user = data['event_from_user']
 
-        if isinstance(event.message, Message):
-            await user_methods.add_message(event.message)
-        elif isinstance(event.callback_query, CallbackQuery):
-            logger.debug(event.callback_query.data)
-
+        await user_methods.update_of_create_tg_user(user)
         self.counter += 1
         data['counter'] = self.counter
         return await handler(event, data)

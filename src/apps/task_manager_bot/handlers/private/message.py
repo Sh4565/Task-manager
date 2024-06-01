@@ -6,8 +6,8 @@ from aiogram import Router
 from aiogram.types import Message
 from aiogram.fsm.context import FSMContext
 
-from apps.TelegramBot.states import CreateTask
-from apps.TelegramBot.keyboards import callback_data
+from apps.task_manager_bot.states import CreateTask
+from apps.task_manager_bot.keyboards import callback_data
 
 
 message_router = Router()

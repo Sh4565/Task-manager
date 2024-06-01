@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('TelegramBot', '0002_task_delete_tasks'),
+        ('task_manager_bot', '0002_task_delete_tasks'),
     ]
 
     operations = [

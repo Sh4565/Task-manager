@@ -6,10 +6,10 @@ from aiogram import F, Router
 from aiogram.types import CallbackQuery
 from aiogram.fsm.context import FSMContext
 
-from apps.TelegramBot.db import task_methods
-from apps.TelegramBot.states import CreateTask
-from apps.TelegramBot.utils import message_edit_text_keyboard
-from apps.TelegramBot.keyboards import callback_data
+from apps.task_manager_bot.db import task_methods
+from apps.task_manager_bot.states import CreateTask
+from apps.task_manager_bot.utils import message_edit_text_keyboard
+from apps.task_manager_bot.keyboards import callback_data
 
 
 callback_query_router = Router()
