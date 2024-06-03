@@ -5,13 +5,7 @@ services:
     db:
         image: mysql:8.0
         restart: always
-        env_file:
-            - .env
-#        environment:
-#            MYSQL_DATABASE: ${MYSQL_DATABASE}
-#            MYSQL_USER: ${MYSQL_USER}
-#            MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-#            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+        env_file: .env
         ports:
             - "3306:3306"
         volumes:
@@ -29,23 +23,7 @@ services:
             - "8000:8000"
         depends_on:
             - db
-        env_file:
-            - .env
-#        environment:
-#            MYSQL_DATABASE: ${MYSQL_DATABASE}
-#            MYSQL_USER: ${MYSQL_USER}
-#            MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-#            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-#
-#            DATABASE_HOST: ${DATABASE_HOST}
-#            DATABASE_PORT: ${DATABASE_PORT}
-#
-#            TOKEN_BOT: ${TOKEN_BOT}
-#            WEBHOOK_HOST: ${WEBHOOK_HOST}
-#
-#            DEBUG: ${DEBUG}
-#            SECRET_KEY: ${SECRET_KEY}
-
+        env_file: .env
     telegram-bot:
         build:
             context: .
@@ -54,22 +32,7 @@ services:
             - "8001:8001"
         depends_on:
             - db
-        env_file:
-            - .env
-#        environment:
-#            MYSQL_DATABASE: ${MYSQL_DATABASE}
-#            MYSQL_USER: ${MYSQL_USER}
-#            MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-#            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-#
-#            DATABASE_HOST: ${DATABASE_HOST}
-#            DATABASE_PORT: ${DATABASE_PORT}
-#
-#            TOKEN_BOT: ${TOKEN_BOT}
-#            WEBHOOK_HOST: ${WEBHOOK_HOST}
-#
-#            DEBUG: ${DEBUG}
-#            SECRET_KEY: ${SECRET_KEY}
+        env_file: .env
 
     nginx:
         image: nginx:latest
