@@ -17,7 +17,7 @@ logger.setLevel(settings.LOG_LEVEL)
 
 
 async def run_polling():
-    init_scheduler()
+    await init_scheduler()
     setup_middleware(dp)
     init_routers(dp)
     await dp.start_polling(bot)
@@ -25,10 +25,10 @@ async def run_polling():
 
 async def on_startup(bot) -> None:
     await bot.set_webhook(f"{settings.WEBHOOK_URL}")
+    await init_scheduler()
 
 
 def run_webhook():
-    init_scheduler()
     setup_middleware(dp)
     init_routers(dp)
     dp.startup.register(on_startup)

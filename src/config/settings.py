@@ -18,10 +18,9 @@ from pathlib import Path
 
 env = Env()
 
-env_file = os.path.join(os.path.dirname(os.path.dirname(__file__)), '.env')
 
-if os.path.exists(env_file):
-    env.read_env(env_file)
+if os.path.exists('.env'):
+    env.read_env()
 
 
 TOKEN_BOT = env.str('TOKEN_BOT')
