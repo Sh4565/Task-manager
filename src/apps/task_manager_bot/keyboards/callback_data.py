@@ -16,7 +16,7 @@ def reply_start_keyboard() -> InlineKeyboardMarkup:
             InlineKeyboardButton(text='Календарь', callback_data='calendar')
         ],
         [
-            InlineKeyboardButton(text='Распорядок дня', callback_data='main_menu')
+            InlineKeyboardButton(text='Распорядок дня', callback_data=f'calendar/day/{datetime.now().strftime("%Y-%m-%d")}')
         ],
         [
             InlineKeyboardButton(text='Мой профиль', callback_data='main_menu')
@@ -309,6 +309,21 @@ def enter_to_delete(date: str, task_id: int) -> InlineKeyboardMarkup:
         ],
         [
             InlineKeyboardButton(text='Нет', callback_data=f'calendar/day/{date}')
+        ]
+    ])
+
+    return keyboard_markup
+
+
+def enter_to_successful_task(task_id: int) -> InlineKeyboardMarkup:
+    task_id = str(task_id)
+
+    keyboard_markup = InlineKeyboardMarkup(inline_keyboard=[
+        [
+            InlineKeyboardButton(text='Да', callback_data=f'successful_task/True/{task_id}')
+        ],
+        [
+            InlineKeyboardButton(text='Нет', callback_data=f'successful_task/False/{task_id}')
         ]
     ])
 

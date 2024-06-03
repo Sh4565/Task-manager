@@ -34,7 +34,7 @@ SECRET_KEY = env.str('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool('DEBUG')
 
-ALLOWED_HOSTS = ['212.86.115.52', 'task-manager-tgbot.site']
+ALLOWED_HOSTS = ['212.86.115.52', 'task-manager-tgbot.site', '127.0.0.1']
 
 WEB_SERVER_HOST = "0.0.0.0"
 WEB_SERVER_PORT = 8001
@@ -44,7 +44,6 @@ WEBHOOK_PATH = '/webhook'
 WEBHOOK_URL = f"{WEBHOOK_HOST}{WEBHOOK_PATH}"
 
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -88,16 +87,25 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': env.str('MYSQL_DATABASE'),
-        'USER': env.str('MYSQL_USER'),
-        'PASSWORD': env.str('MYSQL_PASSWORD'),
-        'HOST': env.str('DATABASE_HOST'),
-        'PORT': env.str('DATABASE_PORT'),
+if DEBUG:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
     }
-}
+
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': env.str('MYSQL_DATABASE'),
+            'USER': env.str('MYSQL_USER'),
+            'PASSWORD': env.str('MYSQL_PASSWORD'),
+            'HOST': env.str('DATABASE_HOST'),
+            'PORT': env.str('DATABASE_PORT'),
+        }
+    }
 
 
 # Password validation

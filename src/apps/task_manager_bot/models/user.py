@@ -7,9 +7,9 @@ class TelegramUser(models.Model):
     """Пользователи телеграм бота"""
 
     language_choices = {
-        'EN': 'English',
-        'UA': 'Ukrainian',
-        'RU': 'Russian',
+        'en': 'English',
+        'ua': 'Ukrainian',
+        'ru': 'Russian',
     }
 
     user_id = models.PositiveBigIntegerField(verbose_name=gettext('ID Telegram'), db_index=True, unique=True)

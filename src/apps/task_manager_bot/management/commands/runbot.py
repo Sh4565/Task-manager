@@ -1,3 +1,4 @@
+
 import asyncio
 import logging
 
@@ -8,6 +9,7 @@ from aiogram.webhook.aiohttp_server import SimpleRequestHandler, setup_applicati
 
 from apps.task_manager_bot import dp, bot
 from apps.task_manager_bot.handlers import init_routers
+from apps.task_manager_bot.schedulers import init_scheduler
 from apps.task_manager_bot.middlewares import setup_middleware
 
 logger = logging.getLogger(__name__)
@@ -15,6 +17,7 @@ logger.setLevel(settings.LOG_LEVEL)
 
 
 async def run_polling():
+    init_scheduler()
     setup_middleware(dp)
     init_routers(dp)
     await dp.start_polling(bot)
@@ -25,6 +28,7 @@ async def on_startup(bot) -> None:
 
 
 def run_webhook():
+    init_scheduler()
     setup_middleware(dp)
     init_routers(dp)
     dp.startup.register(on_startup)
@@ -52,5 +56,6 @@ class Command(BaseCommand):
                 run_webhook()
             else:
                 logger.error(f"Unknown launch type: {options['launch']}")
+
         except Exception as err:
             logger.error(f'Error: {err}')

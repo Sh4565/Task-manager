@@ -6,10 +6,10 @@ from aiogram import F, Router
 from aiogram.types import CallbackQuery
 from aiogram.fsm.context import FSMContext
 
-from apps.task_manager_bot.db import task_methods
 from apps.task_manager_bot.states import CreateTask
-from apps.task_manager_bot.utils import message_edit_text_keyboard
 from apps.task_manager_bot.keyboards import callback_data
+from apps.task_manager_bot.db import task_methods, user_methods
+from apps.task_manager_bot.utils import message_edit_text_keyboard
 
 
 callback_query_router = Router()
@@ -330,3 +330,43 @@ async def calendar_day(callback: CallbackQuery, state: FSMContext) -> None:
         text=f'{schedule}{date_schedule}\nВыберите действие',
         reply_markup=callback_data.reply_check_day_keyboard(date_schedule)
     )
+
+
+@callback_query_router.callback_query(F.data.startswith("successful_task/True"))
+async def task_completed(callback: CallbackQuery, state: FSMContext) -> None:
+    await state.clear()
+
+    task_id = callback.data.split('/')[2]
+    task = await task_methods.get_task(int(task_id), callback.from_user.id)
+
+    await task_methods.add_task(
+        user_id=callback.from_user.id,
+        date=task.date,
+        title=task.title,
+        time=f'{task.start_datetime.strftime("%H:%M")}-{task.end_datetime.strftime("%H:%M")}',
+        description=task.description,
+        task_id=task_id,
+        done=True
+    )
+
+    await callback.message.edit_text(text='Поздравляю с успешным выполнением задания')
+
+
+@callback_query_router.callback_query(F.data.startswith("successful_task/False"))
+async def task_completed(callback: CallbackQuery, state: FSMContext) -> None:
+    await state.clear()
+
+    task_id = callback.data.split('/')[2]
+    task = await task_methods.get_task(int(task_id), callback.from_user.id)
+
+    await task_methods.add_task(
+        user_id=callback.from_user.id,
+        date=task.date,
+        title=task.title,
+        time=f'{task.start_datetime.strftime("%H:%M")}-{task.end_datetime.strftime("%H:%M")}',
+        description=task.description,
+        task_id=task_id,
+        done=False
+    )
+
+    await callback.message.edit_text(text='Поздравляю с успешным выполнением задания')
