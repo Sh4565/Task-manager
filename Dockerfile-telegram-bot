@@ -5,6 +5,7 @@ COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt
 
 COPY ./src .
+COPY .env .env
 
 CMD ["python", "src/manage.py", "runbot", "webhook"]
 
