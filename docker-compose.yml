@@ -37,6 +37,15 @@ services:
             MYSQL_PASSWORD: ${MYSQL_PASSWORD}
             MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
 
+            DATABASE_HOST: ${DATABASE_HOST}
+            DATABASE_PORT: ${DATABASE_PORT}
+
+            TOKEN_BOT: ${TOKEN_BOT}
+            WEBHOOK_HOST: ${WEBHOOK_HOST}
+
+            DEBUG: ${DEBUG}
+            SECRET_KEY: ${SECRET_KEY}
+
     telegram-bot:
         build:
             context: .
@@ -52,6 +61,15 @@ services:
             MYSQL_USER: ${MYSQL_USER}
             MYSQL_PASSWORD: ${MYSQL_PASSWORD}
             MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+
+            DATABASE_HOST: ${DATABASE_HOST}
+            DATABASE_PORT: ${DATABASE_PORT}
+
+            TOKEN_BOT: ${TOKEN_BOT}
+            WEBHOOK_HOST: ${WEBHOOK_HOST}
+
+            DEBUG: ${DEBUG}
+            SECRET_KEY: ${SECRET_KEY}
 
     nginx:
         image: nginx:latest
