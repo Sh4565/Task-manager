@@ -7,11 +7,11 @@ services:
         restart: always
         env_file:
             - .env
-        environment:
-            MYSQL_DATABASE: ${MYSQL_DATABASE}
-            MYSQL_USER: ${MYSQL_USER}
-            MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+#        environment:
+#            MYSQL_DATABASE: ${MYSQL_DATABASE}
+#            MYSQL_USER: ${MYSQL_USER}
+#            MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+#            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
         ports:
             - "3306:3306"
         volumes:
@@ -31,20 +31,20 @@ services:
             - db
         env_file:
             - .env
-        environment:
-            MYSQL_DATABASE: ${MYSQL_DATABASE}
-            MYSQL_USER: ${MYSQL_USER}
-            MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-
-            DATABASE_HOST: ${DATABASE_HOST}
-            DATABASE_PORT: ${DATABASE_PORT}
-
-            TOKEN_BOT: ${TOKEN_BOT}
-            WEBHOOK_HOST: ${WEBHOOK_HOST}
-
-            DEBUG: ${DEBUG}
-            SECRET_KEY: ${SECRET_KEY}
+#        environment:
+#            MYSQL_DATABASE: ${MYSQL_DATABASE}
+#            MYSQL_USER: ${MYSQL_USER}
+#            MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+#            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+#
+#            DATABASE_HOST: ${DATABASE_HOST}
+#            DATABASE_PORT: ${DATABASE_PORT}
+#
+#            TOKEN_BOT: ${TOKEN_BOT}
+#            WEBHOOK_HOST: ${WEBHOOK_HOST}
+#
+#            DEBUG: ${DEBUG}
+#            SECRET_KEY: ${SECRET_KEY}
 
     telegram-bot:
         build:
@@ -56,20 +56,20 @@ services:
             - db
         env_file:
             - .env
-        environment:
-            MYSQL_DATABASE: ${MYSQL_DATABASE}
-            MYSQL_USER: ${MYSQL_USER}
-            MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-
-            DATABASE_HOST: ${DATABASE_HOST}
-            DATABASE_PORT: ${DATABASE_PORT}
-
-            TOKEN_BOT: ${TOKEN_BOT}
-            WEBHOOK_HOST: ${WEBHOOK_HOST}
-
-            DEBUG: ${DEBUG}
-            SECRET_KEY: ${SECRET_KEY}
+#        environment:
+#            MYSQL_DATABASE: ${MYSQL_DATABASE}
+#            MYSQL_USER: ${MYSQL_USER}
+#            MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+#            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+#
+#            DATABASE_HOST: ${DATABASE_HOST}
+#            DATABASE_PORT: ${DATABASE_PORT}
+#
+#            TOKEN_BOT: ${TOKEN_BOT}
+#            WEBHOOK_HOST: ${WEBHOOK_HOST}
+#
+#            DEBUG: ${DEBUG}
+#            SECRET_KEY: ${SECRET_KEY}
 
     nginx:
         image: nginx:latest
