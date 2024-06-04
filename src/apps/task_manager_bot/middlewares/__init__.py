@@ -1,10 +1,10 @@
 
 from aiogram import Dispatcher
 
-from .message import MessageMiddleware
-from .userupdate import UserUpdateMiddleware
+from .log_message import LogMessageMiddleware
+from .user_update import UserUpdateMiddleware
 
 
 def setup_middleware(dp: Dispatcher):
-    dp.update.middleware(MessageMiddleware())
+    dp.message.middleware(LogMessageMiddleware())
     dp.update.outer_middleware(UserUpdateMiddleware())

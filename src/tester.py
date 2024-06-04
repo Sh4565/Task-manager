@@ -1,68 +1,25 @@
+import pytz
+import datetime
 
-import logging
-import sys
-from environs import Env
+# Текущая дата и время в UTC
+current_time_UTC = datetime.datetime.now(pytz.utc)
 
-from aiohttp import web
+# Дата и время в формате строки
+date_str = current_time_UTC.strftime("%Y-%m-%d")
+time_str = '14:34'
+datetime_str = f'{date_str} {time_str}'
 
-from aiogram import Bot, Dispatcher, Router, types
-from aiogram.enums import ParseMode
-from aiogram.filters import CommandStart
-from aiogram.types import Message
-from aiogram.utils.markdown import hbold
-from aiogram.webhook.aiohttp_server import SimpleRequestHandler, setup_application
+# Временная зона 'Europe/Kiev'
+timezone = pytz.timezone('Europe/Kiev')
 
-env = Env()
-env.read_env()
+# Парсинг строки с датой и временем в объект datetime
+string_time_Kiev = datetime.datetime.strptime(datetime_str, "%Y-%m-%d %H:%M")
 
+# Локализация времени в нужную временную зону
+string_time_Kiev = timezone.localize(string_time_Kiev)
 
-TOKEN_BOT = env.str('TOKEN_BOT')
+# Преобразование во временную зону UTC
+string_time_utc = string_time_Kiev.astimezone(pytz.utc)
 
-WEB_SERVER_HOST = "127.0.0.1"
-WEB_SERVER_PORT = 8080
-
-WEBHOOK_PATH = "/webhook"
-BASE_WEBHOOK_URL = "https://wallaby-dominant-coyote.ngrok-free.app"
-
-router = Router()
-
-
-@router.message(CommandStart())
-async def command_start_handler(message: Message) -> None:
-
-    await message.answer(f"Hello, {hbold(message.from_user.full_name)}!")
-
-
-@router.message()
-async def echo_handler(message: types.Message) -> None:
-
-    try:
-        await message.send_copy(chat_id=message.chat.id)
-    except TypeError:
-        await message.answer("Nice try!")
-
-
-async def on_startup(bot: Bot) -> None:
-    await bot.set_webhook(f"{BASE_WEBHOOK_URL}{WEBHOOK_PATH}")
-
-
-def main() -> None:
-    dp = Dispatcher()
-    dp.include_router(router)
-    dp.startup.register(on_startup)
-    bot = Bot(TOKEN_BOT, parse_mode=ParseMode.HTML)
-    app = web.Application()
-    webhook_requests_handler = SimpleRequestHandler(
-        dispatcher=dp,
-        bot=bot,
-    )
-    webhook_requests_handler.register(app, path=WEBHOOK_PATH)
-
-    setup_application(app, dp, bot=bot)
-
-    web.run_app(app, host=WEB_SERVER_HOST, port=WEB_SERVER_PORT)
-
-
-if __name__ == "__main__":
-    logging.basicConfig(level=logging.INFO, stream=sys.stdout)
-    main()
+print(current_time_UTC.strftime("%H:%M"))
+print(string_time_utc.strftime("%H:%M"))

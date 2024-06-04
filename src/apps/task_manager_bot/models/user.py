@@ -16,7 +16,7 @@ class TelegramUser(models.Model):
     first_name = models.CharField(verbose_name=gettext('Имя'), max_length=150, null=False, blank=True)
     last_name = models.CharField(verbose_name=gettext('Фамилия'), max_length=150, null=True)
     username = models.CharField(verbose_name=gettext('Username'), max_length=150, null=True)
-    utc = models.CharField(verbose_name=gettext('UTC'), max_length=3, null=True)
+    timezone = models.CharField(verbose_name=gettext('UTC'), max_length=150, null=True)
     language = models.CharField(verbose_name=gettext('Языковой интерфейс'), max_length=2, choices=language_choices, null=True)
     last_activity = models.DateTimeField(verbose_name=gettext('Последняя активность пользователя'), null=True)
 

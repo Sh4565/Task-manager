@@ -1,4 +1,5 @@
 
+import pytz
 import logging
 import calendar
 
@@ -19,7 +20,7 @@ def reply_start_keyboard() -> InlineKeyboardMarkup:
             InlineKeyboardButton(text='Распорядок дня', callback_data=f'calendar/day/{datetime.now().strftime("%Y-%m-%d")}')
         ],
         [
-            InlineKeyboardButton(text='Мой профиль', callback_data='main_menu')
+            InlineKeyboardButton(text='Мой профиль', callback_data='profile')
         ],
         [
             InlineKeyboardButton(text='Поддержка', callback_data='main_menu')
@@ -270,7 +271,6 @@ def reply_list_task_keyboard(date: str, list_tasks: list, parameter: str, page: 
 
     keyboard_buttons = []
 
-    # Генерация кнопок для текущей страницы задач
     for task in current_tasks:
         start_time = task.start_datetime.strftime("%H:%M")
         end_time = task.end_datetime.strftime("%H:%M")
@@ -280,7 +280,6 @@ def reply_list_task_keyboard(date: str, list_tasks: list, parameter: str, page: 
         )
         keyboard_buttons.append([task_button])
 
-    # Кнопки навигации по страницам
     navigation_buttons = []
     if page > 1:
         navigation_buttons.append(
@@ -292,7 +291,6 @@ def reply_list_task_keyboard(date: str, list_tasks: list, parameter: str, page: 
     if navigation_buttons:
         keyboard_buttons.append(navigation_buttons)
 
-    # Кнопка "Назад"
     keyboard_buttons.append([
         InlineKeyboardButton(text='Назад', callback_data=f'calendar/day/{date}')
     ])
@@ -324,6 +322,60 @@ def enter_to_successful_task(task_id: int) -> InlineKeyboardMarkup:
         ],
         [
             InlineKeyboardButton(text='Нет', callback_data=f'successful_task/False/{task_id}')
+        ]
+    ])
+
+    return keyboard_markup
+
+
+def reply_list_timezone_keyboard(page: int = 1) -> InlineKeyboardMarkup:
+    per_page = 15
+    start_index = (page - 1) * per_page
+    end_index = start_index + per_page
+
+    timezones = pytz.all_timezones
+    chunk_timezones = timezones[start_index:end_index]
+
+    keyboard_buttons = []
+
+    for timezone in chunk_timezones:
+
+        timezone_button = InlineKeyboardButton(
+            text=timezone,
+            callback_data=f'set_timezone/{timezone.replace("/", "-")}'
+        )
+        keyboard_buttons.append([timezone_button])
+
+    navigation_buttons = []
+    if page > 1:
+        navigation_buttons.append(
+            InlineKeyboardButton(text='<-', callback_data=f'set_list_timezones/{page - 1}'))
+    if end_index < len(timezones):
+        navigation_buttons.append(
+            InlineKeyboardButton(text='->', callback_data=f'set_list_timezones/{page + 1}'))
+
+    if navigation_buttons:
+        keyboard_buttons.append(navigation_buttons)
+
+    keyboard_buttons.append([
+        InlineKeyboardButton(text='Назад', callback_data=f'profile')
+    ])
+
+    keyboard_markup = InlineKeyboardMarkup(inline_keyboard=keyboard_buttons)
+    return keyboard_markup
+
+
+def profile_keyboard() -> InlineKeyboardMarkup:
+
+    keyboard_markup = InlineKeyboardMarkup(inline_keyboard=[
+        [
+            InlineKeyboardButton(text='Сменить часовой пояс', callback_data=f'set_list_timezones/1')
+        ],
+        [
+            InlineKeyboardButton(text='Сменить язык', callback_data=f'вапр')
+        ],
+        [
+            InlineKeyboardButton(text='Назад', callback_data=f'start_menu')
         ]
     ])
 

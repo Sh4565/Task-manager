@@ -2,17 +2,20 @@
 import logging
 
 from aiogram import Bot
+from apscheduler.jobstores.base import ConflictingIdError
 
-from apps.task_manager_bot.keyboards import callback_data
 from apps.task_manager_bot.main import bot, scheduler
-from apps.task_manager_bot.db.task_methods import get_all_tasks, get_task
+from apps.task_manager_bot.keyboards import callback_data
+from apps.task_manager_bot.db import task_methods, user_methods
 
 
 logger = logging.getLogger(__name__)
 
 
 async def start_task(bot: Bot, task_id: int, user_id: int) -> None:
-    task = await get_task(task_id, user_id)
+    user = await user_methods.get_user(user_id)
+    task = await task_methods.get_task(task_id, user)
+
     await bot.send_message(
         chat_id=user_id,
         text=f'Время приступать к выполнению задания "{task.title}"!'
@@ -20,7 +23,9 @@ async def start_task(bot: Bot, task_id: int, user_id: int) -> None:
 
 
 async def end_task(bot: Bot, task_id: int, user_id: int) -> None:
-    task = await get_task(task_id, user_id)
+    user = await user_methods.get_user(user_id)
+    task = await task_methods.get_task(task_id, user)
+
     await bot.send_message(
         chat_id=user_id,
         text=f'Вы выполнили задание "{task.title}"?',
@@ -29,7 +34,8 @@ async def end_task(bot: Bot, task_id: int, user_id: int) -> None:
 
 
 async def add_users_scheduler():
-    tasks = await get_all_tasks()
+    logger.debug('Проверяю наличие новых задач пользователей')
+    tasks = await task_methods.get_all_tasks()
 
     for task in tasks:
         try:
@@ -39,8 +45,10 @@ async def add_users_scheduler():
             scheduler.add_job(end_task, 'date', run_date=end_time, args=[bot, task.id, task.user_id], id=f'{str(task.id)}end')
             logger.debug(f'Задача {task.id} успешно запланирована')
 
-        except Exception as err:
-            logger.error(f'Задача {task.id} не была добавлена в планировщик {err}')
+        except ConflictingIdError:
+            pass
+
+    logger.debug('Закончил проверку наличии новых задач пользователей')
 
 
 def init_scheduler():

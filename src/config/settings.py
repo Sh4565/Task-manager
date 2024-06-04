@@ -37,7 +37,7 @@ SECRET_KEY = env.str('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool('DEBUG')
 
-ALLOWED_HOSTS = ['212.86.115.52', 'task-manager-tgbot.site', '127.0.0.1']
+ALLOWED_HOSTS = ['task-manager-tgbot.site', '127.0.0.1']
 
 WEB_SERVER_HOST = "0.0.0.0"
 WEB_SERVER_PORT = 8001
@@ -133,7 +133,8 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
-LANGUAGE_CODE = 'ru-RU'
+LANGUAGE_CODE = 'uk'
+
 
 TIME_ZONE = 'UTC'
 

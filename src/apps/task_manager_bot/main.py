@@ -1,4 +1,5 @@
 
+from pytz import utc
 from django.conf import settings
 from aiogram import Bot, Dispatcher
 from aiogram.enums import ParseMode
@@ -7,6 +8,7 @@ from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
 
 dp = Dispatcher()
-bot = Bot(token=settings.TOKEN_BOT, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
+bot = Bot(token=settings.TOKEN_BOT, default=DefaultBotProperties(parse_mode=ParseMode.MARKDOWN))
 
-scheduler = AsyncIOScheduler()
+scheduler = AsyncIOScheduler(timezone=utc)
+

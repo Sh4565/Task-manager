@@ -12,10 +12,10 @@ admin.site.unregister(Group)
 @admin.register(TelegramUser)
 class BotUserAdmin(admin.ModelAdmin):
 
-    list_display = ['user_id', 'username', 'first_name', 'last_name', 'utc', 'language', 'last_activity']
-    list_filter = ['user_id', 'username', 'first_name', 'last_name', 'utc', 'language', 'last_activity']
-    search_fields = ['user_id', 'username', 'first_name', 'last_name', 'utc', 'language', 'last_activity']
-    readonly_fields = ['user_id', 'username', 'first_name', 'last_name', 'utc', 'language', 'last_activity']
+    list_display = ['user_id', 'username', 'first_name', 'last_name', 'timezone', 'language', 'last_activity']
+    list_filter = ['user_id', 'username', 'first_name', 'last_name', 'timezone', 'language', 'last_activity']
+    search_fields = ['user_id', 'username', 'first_name', 'last_name', 'timezone', 'language', 'last_activity']
+    readonly_fields = ['user_id', 'username', 'first_name', 'last_name', 'timezone', 'language', 'last_activity']
 
     def has_add_permission(self, request):
         return False
