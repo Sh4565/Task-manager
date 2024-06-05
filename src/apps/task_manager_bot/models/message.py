@@ -14,8 +14,4 @@ class TelegramMessage(models.Model):
     class Meta:
         verbose_name = gettext('Повідомлення')
         verbose_name_plural = gettext('Повідомлення')
-        # constraints = [
-        #     models.UniqueConstraint(
-        #         fields=['chat_id', 'user_id', 'message_id'],
-        #         name='unique_telegram_message')
-        # ]
+

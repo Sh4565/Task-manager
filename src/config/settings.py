@@ -39,16 +39,6 @@ DEBUG = env.bool('DEBUG')
 
 ALLOWED_HOSTS = ['task-manager-tgbot.site', '127.0.0.1', '212.86.115.52']
 
-CSRF_TRUSTED_ORIGINS = [
-    'http://localhost',
-    'http://127.0.0.1',
-    'https://task-manager-tgbot.site',
-    'https://212.86.115.52'
-]
-
-CSRF_COOKIE_SECURE = True
-SESSION_COOKIE_SECURE = True
-
 WEB_SERVER_HOST = "0.0.0.0"
 WEB_SERVER_PORT = 8001
 
@@ -69,7 +59,6 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
