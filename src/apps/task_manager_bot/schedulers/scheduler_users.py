@@ -4,6 +4,7 @@ import logging
 from aiogram import Bot
 from apscheduler.jobstores.base import ConflictingIdError
 
+from apps.task_manager_bot.language import get_language
 from apps.task_manager_bot.main import bot, scheduler
 from apps.task_manager_bot.keyboards import callback_data
 from apps.task_manager_bot.db import task_methods, user_methods
@@ -16,9 +17,10 @@ async def start_task(bot: Bot, task_id: int, user_id: int) -> None:
     user = await user_methods.get_user(user_id)
     task = await task_methods.get_task(task_id, user)
 
+    text = get_language('scheduler_start_task', user.language)
     await bot.send_message(
         chat_id=user_id,
-        text=f'Время приступать к выполнению задания "{task.title}"!'
+        text=text.replace('$TASK_TITLE', task.title)
     )
 
 
@@ -26,15 +28,16 @@ async def end_task(bot: Bot, task_id: int, user_id: int) -> None:
     user = await user_methods.get_user(user_id)
     task = await task_methods.get_task(task_id, user)
 
+    text = get_language('scheduler_end_task', user.language)
     await bot.send_message(
         chat_id=user_id,
-        text=f'Вы выполнили задание "{task.title}"?',
-        reply_markup=callback_data.enter_to_successful_task(task.id)
+        text=text.replace('$TASK_TITLE', task.title),
+        reply_markup=callback_data.enter_to_successful_task(task.id, user.language)
     )
 
 
 async def add_users_scheduler():
-    logger.debug('Проверяю наличие новых задач пользователей')
+    logger.debug('Перевіряю наявність нових завдань користувачів')
     tasks = await task_methods.get_all_tasks()
 
     for task in tasks:
@@ -43,16 +46,9 @@ async def add_users_scheduler():
             end_time = f'{task.date.strftime("%Y-%m-%d")} {task.end_datetime.strftime("%H:%M:%S")}'
             scheduler.add_job(start_task, 'date', run_date=start_time, args=[bot, task.id, task.user_id], id=f'{str(task.id)}start')
             scheduler.add_job(end_task, 'date', run_date=end_time, args=[bot, task.id, task.user_id], id=f'{str(task.id)}end')
-            logger.debug(f'Задача {task.id} успешно запланирована')
+            logger.debug(f'Завдання {task.id} успішно заплановане')
 
         except ConflictingIdError:
             pass
 
-    logger.debug('Закончил проверку наличии новых задач пользователей')
-
-
-def init_scheduler():
-    logger.debug('Проверяю наличие новых задач пользователей')
-    scheduler.add_job(add_users_scheduler, 'interval', minutes=1)
-
-    scheduler.start()
+    logger.debug('Закінчив перевірку наявності нових завдань користувачів')

@@ -11,7 +11,7 @@ from apps.task_manager_bot.db import user_methods
 logger = logging.getLogger(__name__)
 
 
-class UserUpdateMiddleware(BaseMiddleware):
+class LanguageMiddleware(BaseMiddleware):
 
     async def __call__(
         self,
@@ -21,12 +21,10 @@ class UserUpdateMiddleware(BaseMiddleware):
     ) -> Any:
 
         user = data['event_from_user']
-
-        if await user_methods.get_user(user.id):
-            await user_methods.update_user(user)
-
-        else:
-            await user_methods.create_user(user)
+        from_user = await user_methods.get_user(user.id)
+        if from_user:
+            language_user: str = from_user.language
+            data['language_user'] = language_user
 
         result = await handler(event, data)
         return result

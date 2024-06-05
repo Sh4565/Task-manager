@@ -42,8 +42,8 @@ ALLOWED_HOSTS = ['task-manager-tgbot.site', '127.0.0.1', '212.86.115.52']
 CSRF_TRUSTED_ORIGINS = [
     'http://localhost',
     'http://127.0.0.1',
-    'http://task-manager-tgbot.site',
-    'http://212.86.115.52'
+    'https://task-manager-tgbot.site',
+    'https://212.86.115.52'
 ]
 
 CSRF_COOKIE_SECURE = True
@@ -147,9 +147,8 @@ LANGUAGE_CODE = 'uk'
 
 
 TIME_ZONE = 'UTC'
-
 USE_I18N = True
-
+USE_I10N = True
 USE_TZ = True
 
 

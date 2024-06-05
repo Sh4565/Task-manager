@@ -3,7 +3,7 @@ import logging
 import datetime
 import django.db.utils
 
-from asgiref.sync import sync_to_async
+from asgiref.sync import sync_to_async, async_to_sync
 from aiogram.types import Message, User
 from django.db import close_old_connections
 from django.core.exceptions import ObjectDoesNotExist
@@ -24,7 +24,7 @@ def add_message(message: Message) -> None:
             text=message.text,
             date=message.date
         )
-        logger.debug(f'Сообщение пользователя [{message.from_user.id}] успешно зарегистрировано')
+        logger.debug(f'Повідомлення користувача [{message.from_user.id}] успішно зареєстровано')
 
     try:
         return main()
@@ -34,7 +34,7 @@ def add_message(message: Message) -> None:
         return main()
 
     except Exception as err:
-        logger.error(f'Сообщение пользователя [{message.from_user.id}] не было зарегистрировано. Ошибка: {err}')
+        logger.error(f'Повідомлення користувача [{message.from_user.id}] не було зареєстровано. Помилка: {err}')
 
 
 @sync_to_async
@@ -56,9 +56,9 @@ def update_of_create_tg_user(user: User, timezone=None):
         telegram_user, create_status = TelegramUser.objects.update_or_create(user_id=user.id, defaults=defaults_dict)
 
         if create_status is False:
-            logger.debug(f'Успешно обновлен user в БД [{user.id}] {user.first_name}')
+            logger.debug(f'Успішно оновлено user в БД [{user.id}] {user.first_name}')
         else:
-            logger.debug(f'Успешно создан user в БД [{user.id}] {user.first_name}')
+            logger.debug(f'Успішно створено user у БД [{user.id}] {user.first_name}')
 
     try:
         return main()
@@ -68,7 +68,7 @@ def update_of_create_tg_user(user: User, timezone=None):
         return main()
 
     except Exception as err:
-        logger.error(f'Данные пользователя [{user.id}] не удалось зарегистрировать. Ошибка: {err}')
+        logger.error(f'Дані користувача [{user.id}] не вдалося зареєструвати. Помилка: {err}')
 
 
 @sync_to_async
@@ -92,7 +92,7 @@ def create_user(user: User):
         main()
 
     except Exception as err:
-        logger.error(f'Не удалось зарегистрировать пользователя [{user.id}]. Ошибка: {err}')
+        logger.error(f'Не вдалося зареєструвати користувача [{user.id}]. Помилка: {err}')
 
 
 @sync_to_async
@@ -120,7 +120,7 @@ def update_user(user: User, timezone: str = None, language: str = None):
         main()
 
     except Exception as err:
-        logger.error(f'Не удалось обновить пользователя [{user.id}]. Ошибка: {err}')
+        logger.error(f'Не вдалося оновити користувача [{user.id}]. Помилка: {err}')
 
 
 @sync_to_async
@@ -140,4 +140,4 @@ def get_user(user_id: int) -> TelegramUser | None:
         return None
 
     except Exception as err:
-        logger.error(f'Не удалось получить пользователя [{user_id}]. Ошибка: {err}')
+        logger.error(f'Неможливо отримати користувача [{user_id}]. Помилка: {err}')

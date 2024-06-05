@@ -1,0 +1,44 @@
+set_timezone|Установлено часовой пояс $TIMEZONE
+not_timezone|Пожалуйста, настройте свой часовой пояс. Вы можете сделать это, перейдя "Профиль->Изменить часовой пояс" или прописав команду, например `/set_timezone Europe/Kiev`
+start_menu|Привет $FIRST_NAME! Выбери действие
+next|Далее
+back|Назад
+yes|Да
+no|Нет
+scheduler_start_task|Время приступать к выполнению задания "$TASK_TITLE"!
+scheduler_end_task|Вы выполнили задание "$TASK_TITLE"?
+reply_start_keyboard_1|Календарь
+reply_start_keyboard_2|Расписание дня
+reply_start_keyboard_3|Мой профиль
+reply_start_keyboard_4|Поддержка
+reply_check_day_keyboard_1|Добавить задание
+reply_check_day_keyboard_2|Редактировать задание
+reply_check_day_keyboard_3|Удалить задание
+reply_check_task_keyboard_1|Сохранить
+reply_check_task_keyboard_2|Изменить
+reply_check_task_keyboard_3|Отмена
+profile_keyboard_1|Изменить часовой пояс
+profile_keyboard_2|Изменить язык
+create_title_task_1|Введите новое описание или нажмите кнопку далее, чтобы оставить "$DESCRIPTION"
+create_title_task_2|Теперь введите описание своего задания
+create_description_task_1|Введите новый временной интервал или нажмите кнопку далее, чтобы оставить "$TIME"
+create_description_task_2|Введите временной интервал, отведенный на выполнение задания. \nПример: 09:00-11:30
+check_task_save|$TIME $TITLE\n$DESCRIPTION\n\nСохранить?
+create_description_task_error|Ошибка! Пожалуйста, следуйте примеру: 09:00-11:30
+calendar|Выбери день для редактирования\n$DATE
+calendar_create_title|Введите название задания
+calendar_day_edit_title|Введите новое название или нажмите кнопку, чтобы оставить "$TITLE"
+create_description_task|Теперь введите описание своего задания
+list_task|$SCHEDULER$DATE\nВыберите действие
+list_task_edit|Выберите задание, которое хотите отредактировать
+list_task_del|Выберите задание, которое хотите удалить
+del_task|Вы действительно хотите удалить "$START_TIME-$END_TIME $TITLE"?
+enter_del_task|Задание было успешно удалено
+task_completed|Поздравляю с успешным выполнением задания
+task_completed_bad|Попробуйте завершить его позже!
+profile|Выполнено заданий - $DONE_TASK\nНе выполнено - $NOT_DONE\nПропущено заданий - $NONE_DONE\nВсего заданий - $ALL_TASK\n\nЧасовой пояс - $TIMEZONE\nЯзык - $LANGUAGE
+set_list_timezones|Выбери свой часовой пояс
+choice_language|Выберите язык
+language_keyboard_1|Английский
+language_keyboard_2|Украинский
+language_keyboard_3|Русский

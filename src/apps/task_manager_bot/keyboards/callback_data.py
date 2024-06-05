@@ -6,31 +6,45 @@ import calendar
 from datetime import datetime
 from aiogram.utils.keyboard import InlineKeyboardButton, InlineKeyboardMarkup
 
+from apps.task_manager_bot.language import get_language
+
 
 logger = logging.getLogger(__name__)
 
 
-def reply_start_keyboard() -> InlineKeyboardMarkup:
+def reply_start_keyboard(language: str) -> InlineKeyboardMarkup:
 
     keyboard_markup = InlineKeyboardMarkup(inline_keyboard=[
         [
-            InlineKeyboardButton(text='Календарь', callback_data='calendar')
+            InlineKeyboardButton(
+                text=get_language('reply_start_keyboard_1', language),
+                callback_data='calendar'
+            )
         ],
         [
-            InlineKeyboardButton(text='Распорядок дня', callback_data=f'calendar/day/{datetime.now().strftime("%Y-%m-%d")}')
+            InlineKeyboardButton(
+                text=get_language('reply_start_keyboard_2', language),
+                callback_data=f'calendar/day/{datetime.now().strftime("%Y-%m-%d")}'
+            )
         ],
         [
-            InlineKeyboardButton(text='Мой профиль', callback_data='profile')
+            InlineKeyboardButton(
+                text=get_language('reply_start_keyboard_3', language),
+                callback_data='profile'
+            )
         ],
         [
-            InlineKeyboardButton(text='Поддержка', callback_data='main_menu')
+            InlineKeyboardButton(
+                text=get_language('reply_start_keyboard_4', language),
+                callback_data='main_menu'
+            )
         ],
     ])
 
     return keyboard_markup
 
 
-def reply_calendar_keyboard(year=None, month=None) -> InlineKeyboardMarkup:
+def reply_calendar_keyboard(language: str, year=None, month=None) -> InlineKeyboardMarkup:
     cal = calendar.Calendar()
 
     if not year and not month:
@@ -65,36 +79,39 @@ def reply_calendar_keyboard(year=None, month=None) -> InlineKeyboardMarkup:
             InlineKeyboardButton(text='->', callback_data=f'calendar/next/{year}-{month}'),
         ],
         [
-            InlineKeyboardButton(text='Назад', callback_data='start_menu')
+            InlineKeyboardButton(
+                text=get_language('back', language),
+                callback_data='start_menu'
+            )
         ]
     ])
 
     return keyboard_markup
 
 
-def reply_check_day_keyboard(date: str) -> InlineKeyboardMarkup:
+def reply_check_day_keyboard(date: str, language: str) -> InlineKeyboardMarkup:
     date = date.split('-')
 
     keyboard_markup = InlineKeyboardMarkup(inline_keyboard=[
         [
             InlineKeyboardButton(
-                text='Добавить задачу',
+                text=get_language('reply_check_day_keyboard_1', language),
                 callback_data=f'calendar/day/add_task/title/{date[0]}-{date[1]}-{date[2]}'
             )
         ],
         [
             InlineKeyboardButton(
-                text='Редактировать задачу',
+                text=get_language('reply_check_day_keyboard_2', language),
                 callback_data=f'calendar/day/list_edit_task/{date[0]}-{date[1]}-{date[2]}/1')
         ],
         [
             InlineKeyboardButton(
-                text='Удалить задачу',
+                text=get_language('reply_check_day_keyboard_3', language),
                 callback_data=f'calendar/day/list_del_task/{date[0]}-{date[1]}-{date[2]}/1')
         ],
         [
             InlineKeyboardButton(
-                text='Назад',
+                text=get_language('back', language),
                 callback_data=f'calendar/date/{date[0]}-{date[1]}-{date[2]}')
         ]
     ])
@@ -102,13 +119,13 @@ def reply_check_day_keyboard(date: str) -> InlineKeyboardMarkup:
     return keyboard_markup
 
 
-def reply_tasks_day_keyboard(date: str) -> InlineKeyboardMarkup:
+def reply_tasks_day_keyboard(date: str, language: str) -> InlineKeyboardMarkup:
     date = date.split('-')
 
     keyboard_markup = InlineKeyboardMarkup(inline_keyboard=[
         [
             InlineKeyboardButton(
-                text='Назад',
+                text=get_language('back', language),
                 callback_data=f'calendar/day/{date[0]}-{date[1]}-{date[2]}'
             )
         ]
@@ -117,12 +134,12 @@ def reply_tasks_day_keyboard(date: str) -> InlineKeyboardMarkup:
     return keyboard_markup
 
 
-def reply_return_add_task_keyboard(date: str) -> InlineKeyboardMarkup:
+def reply_return_add_task_keyboard(date: str, language: str) -> InlineKeyboardMarkup:
     date = date.split('-')
     keyboard_markup = InlineKeyboardMarkup(inline_keyboard=[
         [
             InlineKeyboardButton(
-                text='Назад',
+                text=get_language('back', language),
                 callback_data=f'calendar/day/add_task/edit_title/{date[0]}-{date[1]}-{date[2]}'
             )
         ]
@@ -131,7 +148,7 @@ def reply_return_add_task_keyboard(date: str) -> InlineKeyboardMarkup:
     return keyboard_markup
 
 
-def reply_edit_title_keyboard(date: str, data: dict) -> InlineKeyboardMarkup:
+def reply_edit_title_keyboard(date: str, data: dict, language: str) -> InlineKeyboardMarkup:
     date = date.split('-')
     try:
         if data['description']:
@@ -139,13 +156,13 @@ def reply_edit_title_keyboard(date: str, data: dict) -> InlineKeyboardMarkup:
         keyboard_markup = InlineKeyboardMarkup(inline_keyboard=[
             [
                 InlineKeyboardButton(
-                    text='Далее',
+                    text=get_language('next', language),
                     callback_data=f'calendar/day/add_task/edit_description/'
                 )
             ],
             [
                 InlineKeyboardButton(
-                    text='Назад',
+                    text=get_language('back', language),
                     callback_data=f'calendar/day/{date[0]}-{date[1]}-{date[2]}'
                 )
             ]
@@ -157,13 +174,13 @@ def reply_edit_title_keyboard(date: str, data: dict) -> InlineKeyboardMarkup:
         keyboard_markup = InlineKeyboardMarkup(inline_keyboard=[
             [
                 InlineKeyboardButton(
-                    text='Далее',
+                    text=get_language('next', language),
                     callback_data=f'calendar/day/add_task/description/'
                 )
             ],
             [
                 InlineKeyboardButton(
-                    text='Назад',
+                    text=get_language('back', language),
                     callback_data=f'calendar/date/{date[0]}-{date[1]}-{date[2]}'
                 )
             ]
@@ -172,11 +189,11 @@ def reply_edit_title_keyboard(date: str, data: dict) -> InlineKeyboardMarkup:
         return keyboard_markup
 
 
-def reply_return_edit_description_keyboard() -> InlineKeyboardMarkup:
+def reply_return_edit_description_keyboard(language: str) -> InlineKeyboardMarkup:
     keyboard_markup = InlineKeyboardMarkup(inline_keyboard=[
         [
             InlineKeyboardButton(
-                text='Назад',
+                text=get_language('back', language),
                 callback_data=f'calendar/day/add_task/edit_description/'
             )
         ]
@@ -185,7 +202,7 @@ def reply_return_edit_description_keyboard() -> InlineKeyboardMarkup:
     return keyboard_markup
 
 
-def reply_edit_description_keyboard(date: str, data: dict) -> InlineKeyboardMarkup:
+def reply_edit_description_keyboard(date: str, data: dict, language: str) -> InlineKeyboardMarkup:
     date = date.split('-')
 
     try:
@@ -195,30 +212,31 @@ def reply_edit_description_keyboard(date: str, data: dict) -> InlineKeyboardMark
         keyboard_markup = InlineKeyboardMarkup(inline_keyboard=[
             [
                 InlineKeyboardButton(
-                    text='Далее',
+                    text=get_language('next', language),
                     callback_data=f'calendar/day/add_task/edit_time/'
                 )
             ],
             [
                 InlineKeyboardButton(
-                    text='Назад',
+                    text=get_language('back', language),
                     callback_data=f'calendar/day/add_task/edit_title/{date[0]}-{date[1]}-{date[2]}'
                 )
             ]
         ])
+
         return keyboard_markup
 
     except KeyError:
         keyboard_markup = InlineKeyboardMarkup(inline_keyboard=[
             [
                 InlineKeyboardButton(
-                    text='Далее',
+                    text=get_language('next', language),
                     callback_data=f'calendar/day/add_task/time/'
                 )
             ],
             [
                 InlineKeyboardButton(
-                    text='Назад',
+                    text=get_language('back', language),
                     callback_data=f'calendar/day/add_task/edit_title/{date[0]}-{date[1]}-{date[2]}'
                 )
             ]
@@ -227,18 +245,18 @@ def reply_edit_description_keyboard(date: str, data: dict) -> InlineKeyboardMark
         return keyboard_markup
 
 
-def reply_edit_time_keyboard() -> InlineKeyboardMarkup:
+def reply_edit_time_keyboard(language: str) -> InlineKeyboardMarkup:
 
     keyboard_markup = InlineKeyboardMarkup(inline_keyboard=[
         [
             InlineKeyboardButton(
-                text='Далее',
+                text=get_language('next', language),
                 callback_data=f'calendar/day/add_task/task/'
             )
         ],
         [
             InlineKeyboardButton(
-                text='Назад',
+                text=get_language('back', language),
                 callback_data=f'calendar/day/add_task/edit_description/'
             )
         ]
@@ -247,23 +265,32 @@ def reply_edit_time_keyboard() -> InlineKeyboardMarkup:
     return keyboard_markup
 
 
-def reply_check_task_keyboard(date: str) -> InlineKeyboardMarkup:
+def reply_check_task_keyboard(date: str, language: str) -> InlineKeyboardMarkup:
     keyboard_markup = InlineKeyboardMarkup(inline_keyboard=[
         [
-            InlineKeyboardButton(text='Сохранить', callback_data=f'calendar/day/add_task/save')
+            InlineKeyboardButton(
+                text=get_language('reply_check_task_keyboard_1', language),
+                callback_data=f'calendar/day/add_task/save'
+            )
         ],
         [
-            InlineKeyboardButton(text='Изменить', callback_data=f'calendar/day/add_task/edit_title/{date}')
+            InlineKeyboardButton(
+                text=get_language('reply_check_task_keyboard_2', language),
+                callback_data=f'calendar/day/add_task/edit_title/{date}'
+            )
         ],
         [
-            InlineKeyboardButton(text='Отмена', callback_data=f'calendar/date/{date}')
+            InlineKeyboardButton(
+                text=get_language('reply_check_task_keyboard_3', language),
+                callback_data=f'calendar/date/{date}'
+            )
         ],
     ])
 
     return keyboard_markup
 
 
-def reply_list_task_keyboard(date: str, list_tasks: list, parameter: str, page: int = 1) -> InlineKeyboardMarkup:
+def reply_list_task_keyboard(language: str, date: str, list_tasks: list, parameter: str, page: int = 1) -> InlineKeyboardMarkup:
     tasks_per_page = 5
     start_index = (page - 1) * tasks_per_page
     end_index = start_index + tasks_per_page
@@ -283,52 +310,73 @@ def reply_list_task_keyboard(date: str, list_tasks: list, parameter: str, page: 
     navigation_buttons = []
     if page > 1:
         navigation_buttons.append(
-            InlineKeyboardButton(text='<-', callback_data=f'calendar/day/list_{parameter}/{date}/{page - 1}'))
+            InlineKeyboardButton(
+                text='<-',
+                callback_data=f'calendar/day/list_{parameter}/{date}/{page - 1}')
+        )
     if end_index < len(list_tasks):
         navigation_buttons.append(
-            InlineKeyboardButton(text='->', callback_data=f'calendar/day/list_{parameter}/{date}/{page + 1}'))
+            InlineKeyboardButton(
+                text='->',
+                callback_data=f'calendar/day/list_{parameter}/{date}/{page + 1}')
+        )
 
     if navigation_buttons:
         keyboard_buttons.append(navigation_buttons)
 
     keyboard_buttons.append([
-        InlineKeyboardButton(text='Назад', callback_data=f'calendar/day/{date}')
+        InlineKeyboardButton(
+            text=get_language('back', language),
+            callback_data=f'calendar/day/{date}'
+        )
     ])
 
     keyboard_markup = InlineKeyboardMarkup(inline_keyboard=keyboard_buttons)
     return keyboard_markup
 
 
-def enter_to_delete(date: str, task_id: int) -> InlineKeyboardMarkup:
+def enter_to_delete(date: str, task_id: int, language: str) -> InlineKeyboardMarkup:
 
     keyboard_markup = InlineKeyboardMarkup(inline_keyboard=[
         [
-            InlineKeyboardButton(text='Да', callback_data=f'calendar/day/enter_del_task/{task_id}')
+            InlineKeyboardButton(
+                text=get_language('yes', language),
+                callback_data=f'calendar/day/enter_del_task/{task_id}'
+            )
         ],
         [
-            InlineKeyboardButton(text='Нет', callback_data=f'calendar/day/{date}')
+            InlineKeyboardButton(
+                text=get_language('no', language),
+                callback_data=f'calendar/day/{date}'
+            )
         ]
     ])
 
     return keyboard_markup
 
 
-def enter_to_successful_task(task_id: int) -> InlineKeyboardMarkup:
+def enter_to_successful_task(task_id: int, language: str) -> InlineKeyboardMarkup:
     task_id = str(task_id)
 
     keyboard_markup = InlineKeyboardMarkup(inline_keyboard=[
         [
-            InlineKeyboardButton(text='Да', callback_data=f'successful_task/True/{task_id}')
+            InlineKeyboardButton(
+                text=get_language('yes', language),
+                callback_data=f'successful_task/True/{task_id}'
+            )
         ],
         [
-            InlineKeyboardButton(text='Нет', callback_data=f'successful_task/False/{task_id}')
+            InlineKeyboardButton(
+                text=get_language('no', language),
+                callback_data=f'successful_task/False/{task_id}'
+            )
         ]
     ])
 
     return keyboard_markup
 
 
-def reply_list_timezone_keyboard(page: int = 1) -> InlineKeyboardMarkup:
+def reply_list_timezone_keyboard(language: str, page: int = 1) -> InlineKeyboardMarkup:
     per_page = 15
     start_index = (page - 1) * per_page
     end_index = start_index + per_page
@@ -349,33 +397,83 @@ def reply_list_timezone_keyboard(page: int = 1) -> InlineKeyboardMarkup:
     navigation_buttons = []
     if page > 1:
         navigation_buttons.append(
-            InlineKeyboardButton(text='<-', callback_data=f'set_list_timezones/{page - 1}'))
+            InlineKeyboardButton(
+                text='<-',
+                callback_data=f'set_list_timezones/{page - 1}')
+        )
     if end_index < len(timezones):
         navigation_buttons.append(
-            InlineKeyboardButton(text='->', callback_data=f'set_list_timezones/{page + 1}'))
+            InlineKeyboardButton(
+                text='->',
+                callback_data=f'set_list_timezones/{page + 1}')
+        )
 
     if navigation_buttons:
         keyboard_buttons.append(navigation_buttons)
 
     keyboard_buttons.append([
-        InlineKeyboardButton(text='Назад', callback_data=f'profile')
+        InlineKeyboardButton(
+            text=get_language('back', language),
+            callback_data=f'profile'
+        )
     ])
 
     keyboard_markup = InlineKeyboardMarkup(inline_keyboard=keyboard_buttons)
     return keyboard_markup
 
 
-def profile_keyboard() -> InlineKeyboardMarkup:
+def profile_keyboard(language: str) -> InlineKeyboardMarkup:
 
     keyboard_markup = InlineKeyboardMarkup(inline_keyboard=[
         [
-            InlineKeyboardButton(text='Сменить часовой пояс', callback_data=f'set_list_timezones/1')
+            InlineKeyboardButton(
+                text=get_language('profile_keyboard_1', language),
+                callback_data=f'set_list_timezones/1'
+            )
         ],
         [
-            InlineKeyboardButton(text='Сменить язык', callback_data=f'вапр')
+            InlineKeyboardButton(
+                text=get_language('profile_keyboard_2', language),
+                callback_data=f'choice_language'
+            )
         ],
         [
-            InlineKeyboardButton(text='Назад', callback_data=f'start_menu')
+            InlineKeyboardButton(
+                text=get_language('back', language),
+                callback_data=f'start_menu'
+            )
+        ]
+    ])
+
+    return keyboard_markup
+
+
+def language_keyboard(language: str) -> InlineKeyboardMarkup:
+
+    keyboard_markup = InlineKeyboardMarkup(inline_keyboard=[
+        [
+            InlineKeyboardButton(
+                text=get_language('language_keyboard_1', language),
+                callback_data=f'set_language/en'
+            )
+        ],
+        [
+            InlineKeyboardButton(
+                text=get_language('language_keyboard_2', language),
+                callback_data=f'set_language/ua'
+            )
+        ],
+        [
+            InlineKeyboardButton(
+                text=get_language('language_keyboard_3', language),
+                callback_data=f'set_language/ru'
+            )
+        ],
+        [
+            InlineKeyboardButton(
+                text=get_language('back', language),
+                callback_data=f'profile'
+            )
         ]
     ])
 

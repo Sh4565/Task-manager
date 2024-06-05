@@ -34,7 +34,7 @@ def get_all_tasks() -> list:
     try:
         return main()
     except django.db.utils.OperationalError:
-        logger.error('OperationalError: Соединение с базой данных потеряно. Попытка восстановить соединение...')
+        logger.error("OperationalError: З'єднання з базою даних втрачено. Спроба відновити з'єднання...")
         close_old_connections()
         return main()
 
@@ -68,8 +68,8 @@ def add_task(user_id: int, date: str, time: str, timezone: str, title: str, desc
             task = Task.objects.get(id=task_id)
             task.user_id = user_id
             task.date = date
-            task.start_datetime = time.split('-')[0]
-            task.end_datetime = time.split('-')[1]
+            task.start_datetime = start_time_utc.strftime("%H:%M")
+            task.end_datetime = end_time_utc.strftime("%H:%M")
             task.title = title
             task.description = description
             task.done = done
@@ -91,7 +91,7 @@ def del_task(task_id: int, user_id: int):
     try:
         main()
     except django.db.utils.OperationalError:
-        logger.error('OperationalError: Соединение с базой данных потеряно. Попытка восстановить соединение...')
+        logger.error("OperationalError: З'єднання з базою даних втрачено. Спроба відновити з'єднання...")
         close_old_connections()
         main()
 
@@ -131,7 +131,7 @@ def get_tasks(user: TelegramUser, date: str) -> list:
     try:
         return main()
     except django.db.utils.OperationalError:
-        logger.error('OperationalError: Соединение с базой данных потеряно. Попытка восстановить соединение...')
+        logger.error("OperationalError: З'єднання з базою даних втрачено. Спроба відновити з'єднання...")
         close_old_connections()
         return main()
 
@@ -160,7 +160,7 @@ def get_task(task_id: int, user: TelegramUser) -> Task:
     try:
         return main()
     except django.db.utils.OperationalError:
-        logger.error('OperationalError: Соединение с базой данных потеряно. Попытка восстановить соединение...')
+        logger.error("OperationalError: З'єднання з базою даних втрачено. Спроба відновити з'єднання...")
         close_old_connections()
         return main()
 
@@ -178,6 +178,6 @@ def get_statistic(user_id: int) -> tuple[int, int, int, int]:
     try:
         return main()
     except django.db.utils.OperationalError:
-        logger.error('OperationalError: Соединение с базой данных потеряно. Попытка восстановить соединение...')
+        logger.error("OperationalError: З'єднання з базою даних втрачено. Спроба відновити з'єднання...")
         close_old_connections()
         return main()

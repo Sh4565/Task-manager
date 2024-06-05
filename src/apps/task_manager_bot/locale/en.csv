@@ -1,0 +1,44 @@
+set_timezone|Timezone set to $TIMEZONE
+not_timezone|Please set your timezone. You can do this by going to "Profile->Change timezone" or by typing the command, for example `/set_timezone Europe/Kiev`
+start_menu|Hello $FIRST_NAME! Choose an action
+next|Next
+back|Back
+yes|Yes
+no|No
+scheduler_start_task|Time to start the task "$TASK_TITLE"!
+scheduler_end_task|Did you complete the task "$TASK_TITLE"?
+reply_start_keyboard_1|Calendar
+reply_start_keyboard_2|Daily schedule
+reply_start_keyboard_3|My profile
+reply_start_keyboard_4|Support
+reply_check_day_keyboard_1|Add task
+reply_check_day_keyboard_2|Edit task
+reply_check_day_keyboard_3|Delete task
+reply_check_task_keyboard_1|Save
+reply_check_task_keyboard_2|Edit
+reply_check_task_keyboard_3|Cancel
+profile_keyboard_1|Change timezone
+profile_keyboard_2|Change language
+create_title_task_1|Enter a new description or press next to keep "$DESCRIPTION"
+create_title_task_2|Now enter the description of your task
+create_description_task_1|Enter a new time interval or press next to keep "$TIME"
+create_description_task_2|Enter the time interval allocated for the task. \nExample: 09:00-11:30
+check_task_save|$TIME $TITLE\n$DESCRIPTION\n\nSave?
+create_description_task_error|Error! Please follow the example: 09:00-11:30
+calendar|Choose a day to edit\n$DATE
+calendar_create_title|Enter the task title
+calendar_day_edit_title|Enter a new title or press the button to keep "$TITLE"
+create_description_task|Now enter the description of your task
+list_task|$SCHEDULER$DATE\nChoose an action
+list_task_edit|Choose a task you want to edit
+list_task_del|Choose a task you want to delete
+del_task|Do you really want to delete "$START_TIME-$END_TIME $TITLE"?
+enter_del_task|The task has been successfully deleted
+task_completed|Congratulations on successfully completing the task
+task_completed_bad|Try to complete it later!
+profile|Tasks completed - $DONE_TASK\nNot completed - $NOT_DONE\nTasks missed - $NONE_DONE\nTotal tasks - $ALL_TASK\n\nTimezone - $TIMEZONE\nLanguage - $LANGUAGE
+set_list_timezones|Choose your timezone
+choice_language|Choose a language
+language_keyboard_1|English
+language_keyboard_2|Ukrainian
+language_keyboard_3|Russian

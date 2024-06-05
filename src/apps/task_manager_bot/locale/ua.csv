@@ -1,0 +1,44 @@
+set_timezone|Встановлено часовий пояс $TIMEZONE
+not_timezone|Будь ласка, налаштуйте свій часовий пояс. Ви можете це зробити перейшовши "Профіль->Змінити часовий пояс" або ж прописати команду, наприклад `/set_timezone Europe/Kiev`
+start_menu|Привіт $FIRST_NAME! Вибери дію
+next|Далі
+back|Назад
+yes|Так
+no|Ні
+scheduler_start_task|Час приступати до виконання завдання "$TASK_TITLE"!
+scheduler_end_task|Ви зробили завдання "$TASK_TITLE"?
+reply_start_keyboard_1|Календар
+reply_start_keyboard_2|Розклад дня
+reply_start_keyboard_3|Мій профіль
+reply_start_keyboard_4|Підтримка
+reply_check_day_keyboard_1|Додати завдання
+reply_check_day_keyboard_2|Редагувати завдання
+reply_check_day_keyboard_3|Видалити завдання
+reply_check_task_keyboard_1|Зберегти
+reply_check_task_keyboard_2|Змінити
+reply_check_task_keyboard_3|Скасувати
+profile_keyboard_1|Змінити часовий пояс
+profile_keyboard_2|Змінити мову
+create_title_task_1|Введіть новий опис або натисніть кнопку далі, щоб залишити "$DESCRIPTION"
+create_title_task_2|Тепер введіть опис свого завдання
+create_description_task_1|Введіть новий проміжок часу або натисніть кнопку далі, щоб залишити "$TIME"
+create_description_task_2|Введіть проміжок часу, що відведено на виконання завдання. \nПриклад: 09:00-11:30
+check_task_save|$TIME $TITLE\n$DESCRIPTION\n\nЗберегти?
+create_description_task_error|Помилка! Будь ласка, дотримуйтесь прикладу: 09:00-11:30
+calendar|Вибери день для редагування\n$DATE
+calendar_create_title|Введіть назву завдання
+calendar_day_edit_title|Введіть нову назву або натисніть кнопку, щоб залишити "$TITLE"
+create_description_task|Тепер введіть опис свого завдання
+list_task|$SCHEDULER$DATE\nВиберіть дію
+list_task_edit|Виберіть завдання, яке хочете відредагувати
+list_task_del|Виберіть завдання, яке хочете видалити
+del_task|Ви дійсно хочете видалити "$START_TIME-$END_TIME $TITLE"
+enter_del_task|Завдання було успішно видалено
+task_completed|Вітаю з успішним виконанням завдання
+task_completed_bad|Спробуйте завершити його пізніше!
+profile|Виконано завданнь - $DONE_TASK\nНе виконано - $NOT_DONE\nПропущено завдань - $NONE_DONE\nУсього завдань - $ALL_TASK\n\nЧасовий пояс - $TIMEZONE\nМова - $LANGUAGE
+set_list_timezones|Вибери свій часовий пояс
+choice_language|Виберіть мову
+language_keyboard_1|Англійська
+language_keyboard_2|Українська
+language_keyboard_3|Російська

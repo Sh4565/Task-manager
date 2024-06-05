@@ -46,7 +46,7 @@ class Command(BaseCommand):
     help = 'Telegram Bot'
 
     def add_arguments(self, parser):
-        parser.add_argument("launch", type=str, help='Launch type: polling or webhook')
+        parser.add_argument("launch", type=str, help='Тип запуску: polling або webhook')
 
     def handle(self, *args, **options):
         try:
@@ -55,7 +55,7 @@ class Command(BaseCommand):
             elif options['launch'] == 'webhook':
                 run_webhook()
             else:
-                logger.error(f"Unknown launch type: {options['launch']}")
+                logger.error(f"Невідомий тип запуску: {options['launch']}")
 
         except Exception as err:
             logger.error(f'Error: {err}')
