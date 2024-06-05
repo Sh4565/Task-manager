@@ -37,7 +37,17 @@ SECRET_KEY = env.str('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool('DEBUG')
 
-ALLOWED_HOSTS = ['task-manager-tgbot.site', '127.0.0.1']
+ALLOWED_HOSTS = ['task-manager-tgbot.site', '127.0.0.1', '212.86.115.52']
+
+CSRF_TRUSTED_ORIGINS = [
+    'http://localhost',
+    'http://127.0.0.1',
+    'http://task-manager-tgbot.site',
+    'http://212.86.115.52'
+]
+
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
 
 WEB_SERVER_HOST = "0.0.0.0"
 WEB_SERVER_PORT = 8001
