@@ -113,16 +113,25 @@ async def calendar_date(callback: CallbackQuery, state: FSMContext, language_use
 
 
 @callback_query_router.callback_query(F.data.startswith("calendar/day/add_task/title"))
-async def calendar_create_title(callback: CallbackQuery, state: FSMContext, language_user: str) -> None:
-    date_calendar = callback.data.split('/')[4]
-    await state.update_data(date=date_calendar)
+async def calendar_create_title(callback: CallbackQuery, bot: Bot, state: FSMContext, language_user: str) -> None:
 
-    text = get_language('calendar_create_title', language_user)
-    await callback.message.answer(
-        text=text,
-        reply_markup=callback_data.reply_tasks_day_keyboard(date_calendar, language_user)
-    )
-    await state.set_state(CreateTask.title)
+    user = await user_methods.get_user(callback.from_user.id)
+    if not user.timezone:
+        text = get_language('not_timezone', language_user)
+        await bot.send_message(
+                chat_id=callback.from_user.id,
+                text=text
+            )
+    else:
+        date_calendar = callback.data.split('/')[4]
+        await state.update_data(date=date_calendar)
+
+        text = get_language('calendar_create_title', language_user)
+        await callback.message.answer(
+            text=text,
+            reply_markup=callback_data.reply_tasks_day_keyboard(date_calendar, language_user)
+        )
+        await state.set_state(CreateTask.title)
 
 
 @callback_query_router.callback_query(F.data.startswith("calendar/day/add_task/edit_title"))

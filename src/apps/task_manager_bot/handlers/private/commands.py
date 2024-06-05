@@ -2,6 +2,7 @@
 import logging
 
 from aiogram import Router, Bot
+from aiogram.fsm.context import FSMContext
 from aiogram.types import Message
 from aiogram.filters.command import Command
 
@@ -15,7 +16,8 @@ logger = logging.getLogger(__name__)
 
 
 @commands_router.message(Command('start'))
-async def echo_handler(message: Message, bot: Bot, language_user: str) -> None:
+async def echo_handler(message: Message, bot: Bot, state: FSMContext, language_user: str) -> None:
+    await state.clear()
     user = await user_methods.get_user(message.from_user.id)
 
     if not user.timezone:
@@ -33,7 +35,8 @@ async def echo_handler(message: Message, bot: Bot, language_user: str) -> None:
 
 
 @commands_router.message(Command('set_timezone'))
-async def echo_handler(message: Message, language_user: str) -> None:
+async def echo_handler(message: Message, state: FSMContext, language_user: str) -> None:
+    await state.clear()
     timezone = message.text.split(' ')[1]
 
     await user_methods.update_user(message.from_user, timezone=timezone)

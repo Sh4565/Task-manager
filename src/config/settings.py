@@ -39,6 +39,16 @@ DEBUG = env.bool('DEBUG')
 
 ALLOWED_HOSTS = ['task-manager-tgbot.site', '127.0.0.1', '212.86.115.52']
 
+CSRF_TRUSTED_ORIGINS = [
+    'https://localhost',
+    'https://127.0.0.1',
+    'https://task-manager-tgbot.site',
+    'https://212.86.115.52'
+]
+
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+
 WEB_SERVER_HOST = "0.0.0.0"
 WEB_SERVER_PORT = 8001
 
