@@ -2,7 +2,7 @@
 import logging
 
 from aiogram import BaseMiddleware
-from aiogram.types import Message, CallbackQuery
+from aiogram.types import Message
 from typing import Callable, Dict, Any, Awaitable
 
 from apps.task_manager_bot.db import user_methods

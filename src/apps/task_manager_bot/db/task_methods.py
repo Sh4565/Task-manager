@@ -37,14 +37,22 @@ def get_all_tasks() -> list:
         logger.error("OperationalError: З'єднання з базою даних втрачено. Спроба відновити з'єднання...")
         close_old_connections()
         return main()
+    except Exception as err:
+        logger.error(f'Не вдалося отримати завдання користувачів. Помилка: {err}')
 
 
 @sync_to_async
 def add_task(user_id: int, date: str, time: str, timezone: str, title: str, description: str, task_id: int = 0, done=None) -> None:
     def main() -> None:
 
-        start_time = datetime.datetime.strptime(f'{date} {time.split("-")[0]}', "%Y-%m-%d %H:%M")
-        end_time = datetime.datetime.strptime(f'{date} {time.split("-")[1]}', "%Y-%m-%d %H:%M")
+        start_time = datetime.datetime.strptime(
+            f'{date} {time.split("-")[0]}',
+            "%Y-%m-%d %H:%M"
+        )
+        end_time = datetime.datetime.strptime(
+            f'{date} {time.split("-")[1]}',
+            "%Y-%m-%d %H:%M"
+        )
 
         local_tz = pytz.timezone(timezone)
         start_time = local_tz.localize(start_time)
@@ -78,9 +86,11 @@ def add_task(user_id: int, date: str, time: str, timezone: str, title: str, desc
     try:
         main()
     except django.db.utils.OperationalError:
-        logger.error('OperationalError: Соединение с базой данных потеряно. Попытка восстановить соединение...')
+        logger.error("OperationalError: З'єднання з базою даних втрачено. Спроба відновити з'єднання...")
         close_old_connections()
         main()
+    except Exception as err:
+        logger.error(f'Не вдалося зареєструвати завдання "{title}" користувача[{user_id}]. Помилка: {err}')
 
 
 @sync_to_async
@@ -94,18 +104,25 @@ def del_task(task_id: int, user_id: int):
         logger.error("OperationalError: З'єднання з базою даних втрачено. Спроба відновити з'єднання...")
         close_old_connections()
         main()
+    except Exception as err:
+        logger.error(f'Не вдалося видалити завдання task_id[{task_id}] користувача[{user_id}]. Помилка: {err}')
 
 
 @sync_to_async
 def get_tasks(user: TelegramUser, date: str) -> list:
     def main() -> list:
-        logger.debug(type(user.user_id))
         date_obj = datetime.datetime.strptime(date, "%Y-%m-%d").date()
         tasks = list(Task.objects.filter(user_id=user.user_id, date=date_obj))
 
         for task in tasks:
-            start_time_utc = datetime.datetime.strptime(f'{task.date} {task.start_datetime}', "%Y-%m-%d %H:%M:%S")
-            end_time_utc = datetime.datetime.strptime(f'{task.date} {task.end_datetime}', "%Y-%m-%d %H:%M:%S")
+            start_time_utc = datetime.datetime.strptime(
+                f'{task.date} {task.start_datetime}',
+                "%Y-%m-%d %H:%M:%S"
+            )
+            end_time_utc = datetime.datetime.strptime(
+                f'{task.date} {task.end_datetime}',
+                "%Y-%m-%d %H:%M:%S"
+            )
 
             local_tz = pytz.utc
             start_time_utc = local_tz.localize(start_time_utc)
@@ -134,6 +151,8 @@ def get_tasks(user: TelegramUser, date: str) -> list:
         logger.error("OperationalError: З'єднання з базою даних втрачено. Спроба відновити з'єднання...")
         close_old_connections()
         return main()
+    except Exception as err:
+        logger.error(f'Не вдалося отримати завдання користувача[{user.id}]. Помилка: {err}')
 
 
 @sync_to_async
@@ -142,8 +161,14 @@ def get_task(task_id: int, user: TelegramUser) -> Task:
 
         task = Task.objects.get(id=task_id, user_id=user.user_id)
 
-        start_time_utc = datetime.datetime.strptime(f'{task.date} {task.start_datetime}', "%Y-%m-%d %H:%M:%S")
-        end_time_utc = datetime.datetime.strptime(f'{task.date} {task.end_datetime}', "%Y-%m-%d %H:%M:%S")
+        start_time_utc = datetime.datetime.strptime(
+            f'{task.date} {task.start_datetime}',
+            "%Y-%m-%d %H:%M:%S"
+        )
+        end_time_utc = datetime.datetime.strptime(
+            f'{task.date} {task.end_datetime}',
+            "%Y-%m-%d %H:%M:%S"
+        )
 
         local_tz = pytz.utc
         start_time_utc = local_tz.localize(start_time_utc)
@@ -163,6 +188,8 @@ def get_task(task_id: int, user: TelegramUser) -> Task:
         logger.error("OperationalError: З'єднання з базою даних втрачено. Спроба відновити з'єднання...")
         close_old_connections()
         return main()
+    except Exception as err:
+        logger.error(f'Не вдалося отримати завдання[{task_id}] користувача[{user.user_id}]. Помилка: {err}')
 
 
 @sync_to_async
@@ -181,3 +208,6 @@ def get_statistic(user_id: int) -> tuple[int, int, int, int]:
         logger.error("OperationalError: З'єднання з базою даних втрачено. Спроба відновити з'єднання...")
         close_old_connections()
         return main()
+    except Exception as err:
+        logger.error(f'Не вдалося отримати статистику користувача[{user_id}]. Помилка: {err}')
+

@@ -7,7 +7,7 @@ from aiogram.types import Message
 from aiogram.filters.command import Command
 
 from apps.task_manager_bot.db import user_methods
-from apps.task_manager_bot.language import get_language
+from apps.task_manager_bot.utils.language import get_language
 from apps.task_manager_bot.keyboards import callback_data
 
 
@@ -16,7 +16,7 @@ logger = logging.getLogger(__name__)
 
 
 @commands_router.message(Command('start'))
-async def echo_handler(message: Message, bot: Bot, state: FSMContext, language_user: str) -> None:
+async def start_menu(message: Message, bot: Bot, state: FSMContext, language_user: str) -> None:
     await state.clear()
     user = await user_methods.get_user(message.from_user.id)
 
@@ -35,7 +35,7 @@ async def echo_handler(message: Message, bot: Bot, state: FSMContext, language_u
 
 
 @commands_router.message(Command('set_timezone'))
-async def echo_handler(message: Message, state: FSMContext, language_user: str) -> None:
+async def set_timezone(message: Message, state: FSMContext, language_user: str) -> None:
     await state.clear()
     timezone = message.text.split(' ')[1]
 

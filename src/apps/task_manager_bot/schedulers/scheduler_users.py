@@ -4,7 +4,7 @@ import logging
 from aiogram import Bot
 from apscheduler.jobstores.base import ConflictingIdError
 
-from apps.task_manager_bot.language import get_language
+from apps.task_manager_bot.utils.language import get_language
 from apps.task_manager_bot.main import bot, scheduler
 from apps.task_manager_bot.keyboards import callback_data
 from apps.task_manager_bot.db import task_methods, user_methods
@@ -44,8 +44,20 @@ async def add_users_scheduler():
         try:
             start_time = f'{task.date.strftime("%Y-%m-%d")} {task.start_datetime.strftime("%H:%M:%S")}'
             end_time = f'{task.date.strftime("%Y-%m-%d")} {task.end_datetime.strftime("%H:%M:%S")}'
-            scheduler.add_job(start_task, 'date', run_date=start_time, args=[bot, task.id, task.user_id], id=f'{str(task.id)}start')
-            scheduler.add_job(end_task, 'date', run_date=end_time, args=[bot, task.id, task.user_id], id=f'{str(task.id)}end')
+            scheduler.add_job(
+                start_task,
+                'date',
+                run_date=start_time,
+                args=[bot, task.id, task.user_id],
+                id=f'{str(task.id)}start'
+            )
+            scheduler.add_job(
+                end_task,
+                'date',
+                run_date=end_time,
+                args=[bot, task.id, task.user_id],
+                id=f'{str(task.id)}end'
+            )
             logger.debug(f'Завдання {task.id} успішно заплановане')
 
         except ConflictingIdError:

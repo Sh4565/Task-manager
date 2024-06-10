@@ -17,10 +17,7 @@ from pathlib import Path
 
 
 env = Env()
-
-
-if os.path.exists('.env'):
-    env.read_env()
+env.read_env()
 
 
 TOKEN_BOT = env.str('TOKEN_BOT')
@@ -173,10 +170,6 @@ LOGGING = {
             'format': '[{asctime}] {levelname}: [{name}] ({filename}[{funcName}]) -> {message}',
             'style': '{',
         },
-        'simple': {
-            'format': '{levelname} {message}',
-            'style': '{',
-        },
     },
     'handlers': {
         'console': {
@@ -184,11 +177,6 @@ LOGGING = {
             'class': 'logging.StreamHandler',
             'formatter': 'verbose',
         },
-        # 'mail_admins': {
-        #     'level': 'ERROR',
-        #     'class': 'django.utils.log.AdminEmailHandler',
-        #     'formatter': 'verbose',
-        # },
     },
     'root': {
         'handlers': ['console'],

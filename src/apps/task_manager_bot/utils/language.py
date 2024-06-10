@@ -10,7 +10,8 @@ logger = logging.getLogger(__name__)
 
 
 def get_language(code_text: str, language: str) -> str:
-    locale_path = Path(settings.BASE_DIR, 'apps', 'task_manager_bot', 'locale', f'{language}.csv')
+    locale_path = Path(settings.BASE_DIR, 'apps', 'task_manager_bot',
+                       'locale', f'{language}.csv')
 
     with open(locale_path, encoding='utf-8') as f:
         data = csv.reader(f, delimiter='|')

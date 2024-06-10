@@ -7,7 +7,7 @@ from aiogram.types import CallbackQuery
 from aiogram.fsm.context import FSMContext
 
 from apps.task_manager_bot.states import CreateTask
-from apps.task_manager_bot.language import get_language
+from apps.task_manager_bot.utils.language import get_language
 from apps.task_manager_bot.keyboards import callback_data
 from apps.task_manager_bot.db import task_methods, user_methods
 from apps.task_manager_bot.utils import message_edit_text_keyboard
@@ -113,7 +113,8 @@ async def calendar_date(callback: CallbackQuery, state: FSMContext, language_use
 
 
 @callback_query_router.callback_query(F.data.startswith("calendar/day/add_task/title"))
-async def calendar_create_title(callback: CallbackQuery, bot: Bot, state: FSMContext, language_user: str) -> None:
+async def calendar_create_title(callback: CallbackQuery, bot: Bot, state: FSMContext,
+                                language_user: str) -> None:
 
     user = await user_methods.get_user(callback.from_user.id)
     if not user.timezone:
@@ -135,7 +136,7 @@ async def calendar_create_title(callback: CallbackQuery, bot: Bot, state: FSMCon
 
 
 @callback_query_router.callback_query(F.data.startswith("calendar/day/add_task/edit_title"))
-async def calendar_day_edit_title(callback: CallbackQuery, state: FSMContext, language_user: str) -> None:
+async def edit_title(callback: CallbackQuery, state: FSMContext, language_user: str) -> None:
     date_calendar = callback.data.split('/')[4]
     data = await state.get_data()
     await state.update_data(date=date_calendar)
@@ -163,7 +164,7 @@ async def create_description_task(callback: CallbackQuery, state: FSMContext, la
 
 
 @callback_query_router.callback_query(F.data.startswith("calendar/day/add_task/edit_description"))
-async def calendar_day_edit(callback: CallbackQuery, state: FSMContext, language_user: str) -> None:
+async def edit_description(callback: CallbackQuery, state: FSMContext, language_user: str) -> None:
     data = await state.get_data()
 
     text = get_language('create_title_task_1', language_user)
@@ -339,8 +340,6 @@ async def enter_del_task(callback: CallbackQuery, state: FSMContext, language_us
         text=text,
         reply_markup=callback_data.reply_check_day_keyboard(date_schedule, language_user)
     )
-    # except TypeError:
-    #     pass
 
 
 @callback_query_router.callback_query(F.data.startswith("calendar/day/edit_task/"))
@@ -352,14 +351,17 @@ async def task_edit(callback: CallbackQuery, state: FSMContext, language_user: s
     await state.update_data(title=task.title)
     await state.update_data(date=task.date.strftime("%Y-%m-%d"))
     await state.update_data(description=task.description)
-    await state.update_data(time=f'{task.start_datetime.strftime("%H:%M")}-{task.end_datetime.strftime("%H:%M")}')
+    await state.update_data(
+        time=f'{task.start_datetime.strftime("%H:%M")}-{task.end_datetime.strftime("%H:%M")}'
+    )
 
     data = await state.get_data()
     text = get_language('calendar_day_edit_title', language_user)
     await message_edit_text_keyboard(
         obj=callback,
         text=text.replace('$TITLE', data['title']),
-        reply_markup=callback_data.reply_edit_title_keyboard(task.date.strftime("%Y-%m-%d"), data, language_user)
+        reply_markup=callback_data.reply_edit_title_keyboard(task.date.strftime("%Y-%m-%d"),
+                                                             data, language_user)
     )
     await state.set_state(CreateTask.title)
 
@@ -387,9 +389,15 @@ async def calendar_day(callback: CallbackQuery, state: FSMContext, language_user
     )
 
 
-@callback_query_router.callback_query(F.data.startswith("successful_task/True"))
+@callback_query_router.callback_query(F.data.startswith("successful_task"))
 async def task_completed(callback: CallbackQuery, state: FSMContext, language_user: str) -> None:
     await state.clear()
+
+    completed = callback.data.split('/')[1]
+    if completed == 'False':
+        completed = False
+    elif completed == 'True':
+        completed = True
 
     task_id = int(callback.data.split('/')[2])
     user = await user_methods.get_user(callback.from_user.id)
@@ -403,34 +411,15 @@ async def task_completed(callback: CallbackQuery, state: FSMContext, language_us
         timezone=user.timezone,
         description=task.description,
         task_id=task_id,
-        done=True
+        done=completed
     )
 
-    text = get_language('task_completed', language_user)
-    await callback.message.edit_text(text=text)
-
-
-@callback_query_router.callback_query(F.data.startswith("successful_task/False"))
-async def task_completed(callback: CallbackQuery, state: FSMContext, language_user: str) -> None:
-    await state.clear()
-
-    task_id = int(callback.data.split('/')[2])
-    user = await user_methods.get_user(callback.from_user.id)
-    task = await task_methods.get_task(task_id, user)
-
-    await task_methods.add_task(
-        user_id=callback.from_user.id,
-        date=task.date,
-        title=task.title,
-        time=f'{task.start_datetime.strftime("%H:%M")}-{task.end_datetime.strftime("%H:%M")}',
-        timezone=user.timezone,
-        description=task.description,
-        task_id=task_id,
-        done=False
-    )
-
-    text = get_language('task_completed_bad', language_user)
-    await callback.message.edit_text(text=text)
+    if completed:
+        text = get_language('task_completed', language_user)
+        await callback.message.edit_text(text=text)
+    else:
+        text = get_language('task_completed_bad', language_user)
+        await callback.message.edit_text(text=text)
 
 
 @callback_query_router.callback_query(F.data.startswith("profile"))
@@ -456,7 +445,8 @@ async def profile(callback: CallbackQuery, state: FSMContext, language_user: str
 
 
 @callback_query_router.callback_query(F.data.startswith("set_list_timezones"))
-async def set_list_timezones(callback: CallbackQuery, state: FSMContext, language_user: str) -> None:
+async def set_list_timezones(callback: CallbackQuery,
+                             state: FSMContext, language_user: str) -> None:
     await state.clear()
 
     page = int(callback.data.split('/')[1])
@@ -470,7 +460,8 @@ async def set_list_timezones(callback: CallbackQuery, state: FSMContext, languag
 
 
 @callback_query_router.callback_query(F.data.startswith("set_timezone"))
-async def set_timezone(callback: CallbackQuery, state: FSMContext, bot: Bot, language_user: str) -> None:
+async def set_timezone(callback: CallbackQuery,
+                       state: FSMContext, bot: Bot, language_user: str) -> None:
     await state.clear()
     timezone = callback.data.split('/')[1].replace('-', '/')
 
@@ -483,7 +474,8 @@ async def set_timezone(callback: CallbackQuery, state: FSMContext, bot: Bot, lan
 
 
 @callback_query_router.callback_query(F.data.startswith("choice_language"))
-async def choice_language(callback: CallbackQuery, state: FSMContext, language_user: str) -> None:
+async def choice_language(callback: CallbackQuery,
+                          state: FSMContext, language_user: str) -> None:
     await state.clear()
 
     text = get_language('choice_language', language_user)

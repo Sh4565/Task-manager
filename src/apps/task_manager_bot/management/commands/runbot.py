@@ -59,3 +59,5 @@ class Command(BaseCommand):
 
         except Exception as err:
             logger.error(f'Error: {err}')
+
+

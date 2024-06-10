@@ -3,7 +3,7 @@ import logging
 import datetime
 import django.db.utils
 
-from asgiref.sync import sync_to_async, async_to_sync
+from asgiref.sync import sync_to_async
 from aiogram.types import Message, User
 from django.db import close_old_connections
 from django.core.exceptions import ObjectDoesNotExist
@@ -29,46 +29,12 @@ def add_message(message: Message) -> None:
     try:
         return main()
     except django.db.utils.OperationalError:
-        logger.error('OperationalError: Соединение с базой данных потеряно. Попытка восстановить соединение...')
+        logger.error("OperationalError: З'єднання з базою даних втрачено. Спроба відновити з'єднання...")
         close_old_connections()
         return main()
 
     except Exception as err:
         logger.error(f'Повідомлення користувача [{message.from_user.id}] не було зареєстровано. Помилка: {err}')
-
-
-@sync_to_async
-def update_of_create_tg_user(user: User, timezone=None):
-    def main() -> None:
-        language = user.language_code
-
-        if user.language_code not in ['en', 'ua', 'ru']:
-            language = 'en'
-
-        defaults_dict = {
-            'first_name': user.first_name,
-            'last_name': user.last_name,
-            'username': user.username,
-            'timezone': timezone,
-            'language': language,
-            'last_activity': datetime.datetime.now(datetime.timezone.utc)
-        }
-        telegram_user, create_status = TelegramUser.objects.update_or_create(user_id=user.id, defaults=defaults_dict)
-
-        if create_status is False:
-            logger.debug(f'Успішно оновлено user в БД [{user.id}] {user.first_name}')
-        else:
-            logger.debug(f'Успішно створено user у БД [{user.id}] {user.first_name}')
-
-    try:
-        return main()
-    except django.db.utils.OperationalError:
-        logger.error('OperationalError: Соединение с базой данных потеряно. Попытка восстановить соединение...')
-        close_old_connections()
-        return main()
-
-    except Exception as err:
-        logger.error(f'Дані користувача [{user.id}] не вдалося зареєструвати. Помилка: {err}')
 
 
 @sync_to_async
@@ -87,7 +53,7 @@ def create_user(user: User):
     try:
         main()
     except django.db.utils.OperationalError:
-        logger.error('OperationalError: Соединение с базой данных потеряно. Попытка восстановить соединение...')
+        logger.error("OperationalError: З'єднання з базою даних втрачено. Спроба відновити з'єднання...")
         close_old_connections()
         main()
 
@@ -115,7 +81,7 @@ def update_user(user: User, timezone: str = None, language: str = None):
     try:
         main()
     except django.db.utils.OperationalError:
-        logger.error('OperationalError: Соединение с базой данных потеряно. Попытка восстановить соединение...')
+        logger.error("OperationalError: З'єднання з базою даних втрачено. Спроба відновити з'єднання...")
         close_old_connections()
         main()
 
@@ -132,7 +98,7 @@ def get_user(user_id: int) -> TelegramUser | None:
         return main()
 
     except django.db.utils.OperationalError:
-        logger.error('OperationalError: Соединение с базой данных потеряно. Попытка восстановить соединение...')
+        logger.error("OperationalError: З'єднання з базою даних втрачено. Спроба відновити з'єднання...")
         close_old_connections()
         return main()
 

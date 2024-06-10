@@ -4,9 +4,9 @@ import logging
 import calendar
 
 from datetime import datetime
-from aiogram.utils.keyboard import InlineKeyboardButton, InlineKeyboardMarkup
+from aiogram.utils.keyboard import InlineKeyboardButton, InlineKeyboardMarkup, KeyboardButton
 
-from apps.task_manager_bot.language import get_language
+from apps.task_manager_bot.utils.language import get_language
 
 
 logger = logging.getLogger(__name__)
@@ -19,6 +19,7 @@ def reply_start_keyboard(language: str) -> InlineKeyboardMarkup:
             InlineKeyboardButton(
                 text=get_language('reply_start_keyboard_1', language),
                 callback_data='calendar'
+
             )
         ],
         [
@@ -32,13 +33,7 @@ def reply_start_keyboard(language: str) -> InlineKeyboardMarkup:
                 text=get_language('reply_start_keyboard_3', language),
                 callback_data='profile'
             )
-        ],
-        [
-            InlineKeyboardButton(
-                text=get_language('reply_start_keyboard_4', language),
-                callback_data='main_menu'
-            )
-        ],
+        ]
     ])
 
     return keyboard_markup
