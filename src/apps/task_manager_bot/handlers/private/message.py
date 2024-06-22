@@ -7,8 +7,8 @@ from aiogram.types import Message
 from aiogram.fsm.context import FSMContext
 
 from apps.task_manager_bot.states import CreateTask
-from apps.task_manager_bot.utils.language import get_language
 from apps.task_manager_bot.keyboards import callback_data
+from apps.task_manager_bot.utils.language import get_language
 
 
 message_router = Router()

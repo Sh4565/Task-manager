@@ -6,7 +6,7 @@ class TelegramUser(models.Model):
 
     choices = {
         'en': 'English',
-        'ua': 'Ukrainian',
+        'uk': 'Ukrainian',
         'ru': 'Russian',
     }
 

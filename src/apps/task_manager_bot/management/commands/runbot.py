@@ -46,7 +46,8 @@ class Command(BaseCommand):
     help = 'Telegram Bot'
 
     def add_arguments(self, parser):
-        parser.add_argument("launch", type=str, help='Тип запуску: polling або webhook')
+        parser.add_argument("launch", type=str,
+                            help='Тип запуску: polling або webhook')
 
     def handle(self, *args, **options):
         try:
