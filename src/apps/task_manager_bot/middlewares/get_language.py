@@ -25,6 +25,8 @@ class LanguageMiddleware(BaseMiddleware):
         if from_user:
             language_user: str = from_user.language
             data['language_user'] = language_user
+        else:
+            data['language_user'] = 'en'
 
         result = await handler(event, data)
         return result

@@ -10,6 +10,10 @@ logger = logging.getLogger(__name__)
 
 
 def get_language(code_text: str, language: str) -> str:
+    # print(language)
+    if language not in ['en', 'uk', 'ru']:
+        language = 'en'
+
     locale_path = Path(settings.BASE_DIR, 'apps', 'task_manager_bot',
                        'locale', f'{language}.csv')
 
