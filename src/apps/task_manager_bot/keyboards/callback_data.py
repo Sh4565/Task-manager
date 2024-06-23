@@ -455,7 +455,7 @@ def language_keyboard(language: str) -> InlineKeyboardMarkup:
         [
             InlineKeyboardButton(
                 text=get_language('language_keyboard_2', language),
-                callback_data=f'set_language/ua'
+                callback_data=f'set_language/uk'
             )
         ],
         [
