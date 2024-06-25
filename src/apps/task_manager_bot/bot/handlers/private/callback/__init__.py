@@ -20,4 +20,3 @@ callback_routes.include_routers(
     settings_user_router,
     menus_router,
 )
-
