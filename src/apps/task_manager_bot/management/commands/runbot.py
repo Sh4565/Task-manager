@@ -8,24 +8,24 @@ from django.core.management.base import BaseCommand
 from aiogram.webhook.aiohttp_server import SimpleRequestHandler, setup_application
 
 from apps.task_manager_bot import dp, bot
-from apps.task_manager_bot.handlers import init_routers
-from apps.task_manager_bot.schedulers import init_scheduler
-from apps.task_manager_bot.middlewares import setup_middleware
+from apps.task_manager_bot.bot.handlers import init_routers
+# from apps.task_manager_bot.schedulers import init_scheduler
+from apps.task_manager_bot.bot.middlewares import setup_middleware
 
 logger = logging.getLogger(__name__)
 logger.setLevel(settings.LOG_LEVEL)
 
 
 async def run_polling():
-    await init_scheduler()
+    # await init_scheduler()
     setup_middleware(dp)
     init_routers(dp)
     await dp.start_polling(bot)
 
 
-async def on_startup(bot) -> None:
+async def on_startup() -> None:
     await bot.set_webhook(f"{settings.WEBHOOK_URL}")
-    await init_scheduler()
+    # await init_scheduler()
 
 
 def run_webhook():
@@ -60,5 +60,3 @@ class Command(BaseCommand):
 
         except Exception as err:
             logger.error(f'Error: {err}')
-
-

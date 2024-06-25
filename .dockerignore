@@ -1,0 +1,10 @@
+.env
+.env.example
+DockerFiles/
+docker-compose.yml
+venv/
+.git/
+.idea/
+src/db.sqlite3
+src/migrations/
+src/logs/*.log
