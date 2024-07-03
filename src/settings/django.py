@@ -11,7 +11,10 @@ env = Env()
 env_path = BASE_DIR.parent / '.env'
 
 if os.path.exists(env_path):
+    print('Файл с переменными найден')
     env.read_env()
+else:
+    print('Файл не найден')
 
 
 DEBUG = env.bool('DEBUG')

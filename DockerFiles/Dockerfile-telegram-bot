@@ -7,4 +7,5 @@ COPY ./requirements.txt /home/Task-Manager/requirements.txt
 RUN pip install -r requirements.txt
 
 WORKDIR /home/Task-Manager/src
-CMD ["python", "manage.py", "runbot", "polling"]
+#CMD ["python", "manage.py", "runbot", "polling"]
+RUN python manage.py runbot polling
