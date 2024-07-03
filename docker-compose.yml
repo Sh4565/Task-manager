@@ -3,15 +3,16 @@ version: '3'
 
 services:
     db:
+        env_file: .env
         image: mysql:8.0
         restart: always
-        env_file: .env
         ports:
             - "3306:3306"
         volumes:
             - db_data:/var/lib/mysql
 
     django:
+        env_file: .env
         build:
             context: .
             dockerfile: DockerFiles/Dockerfile-django
@@ -23,9 +24,9 @@ services:
             - "8000:8000"
         depends_on:
             - db
-        env_file: .env
 
     telegram-bot:
+        env_file: .env
         build:
             context: .
             dockerfile: DockerFiles/Dockerfile-telegram-bot
@@ -33,7 +34,6 @@ services:
             - "8001:8001"
         depends_on:
             - db
-        env_file: .env
 
     nginx:
         image: nginx:latest
