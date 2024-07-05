@@ -4,6 +4,7 @@ DockerFiles/
 docker-compose.yml
 venv/
 .git/
+.gitignore
 .idea/
 src/db.sqlite3
 src/migrations/
