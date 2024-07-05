@@ -15,7 +15,6 @@ SECRET_KEY = env.str('SECRET_KEY')
 
 
 ALLOWED_HOSTS = env.str('ALLOWED_HOSTS', default='').split(' ')
-print(ALLOWED_HOSTS)
 
 
 INSTALLED_APPS = [
@@ -40,7 +39,7 @@ MIDDLEWARE = [
 ]
 
 
-ROOT_URLCONF = 'core.urls'
+ROOT_URLCONF = 'settings.urls'
 
 
 TEMPLATES = [
