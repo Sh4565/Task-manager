@@ -20,6 +20,7 @@ async def run_polling():
     # await init_scheduler()
     setup_middleware(dp)
     init_routers(dp)
+    logger.info(str(settings.ALLOWED_HOSTS))
     await dp.start_polling(bot)
 
 
