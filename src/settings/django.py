@@ -8,10 +8,6 @@ from environs import Env
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 env = Env()
-# env_path = BASE_DIR.parent / '.env'
-#
-# if os.path.exists(env_path):
-#     env.read_env()
 env.read_env()
 
 DEBUG = env.bool('DEBUG')
