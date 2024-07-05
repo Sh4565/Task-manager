@@ -4,6 +4,11 @@ version: '3'
 services:
     db:
         env_file: .env
+        environment:
+            - MYSQL_DATABASE = ${MYSQL_DATABASE}
+            - MYSQL_USER = ${MYSQL_USER}
+            - MYSQL_PASSWORD = ${MYSQL_PASSWORD}
+            - MYSQL_ROOT_PASSWORD = ${MYSQL_ROOT_PASSWORD}
         image: mysql:8.0
         restart: always
         ports:
@@ -13,6 +18,21 @@ services:
 
     django:
         env_file: .env
+        environment:
+            - DEBUG = ${DEBUG}
+            - SECRET_KEY = ${SECRET_KEY}
+            - HOST = ${HOST}
+            - MYSQL_DATABASE = ${MYSQL_DATABASE}
+            - MYSQL_USER = ${MYSQL_USER}
+            - MYSQL_PASSWORD = ${MYSQL_PASSWORD}
+            - MYSQL_ROOT_PASSWORD = ${MYSQL_ROOT_PASSWORD}
+            - DATABASE_HOST = ${DATABASE_HOST}
+            - DATABASE_PORT = ${DATABASE_PORT}
+            - TOKEN_BOT = ${TOKEN_BOT}
+            - WEBHOOK_HOST = ${WEBHOOK_HOST}
+            - WEB_SERVER_HOST = ${WEB_SERVER_HOST}
+            - WEB_SERVER_PORT = ${WEB_SERVER_PORT}
+            - LOG_LEVEL = ${LOG_LEVEL}
         build:
             context: .
             dockerfile: DockerFiles/Dockerfile-django
@@ -27,6 +47,21 @@ services:
 
     telegram-bot:
         env_file: .env
+        environment:
+            - DEBUG = ${DEBUG}
+            - SECRET_KEY = ${SECRET_KEY}
+            - HOST = ${HOST}
+            - MYSQL_DATABASE = ${MYSQL_DATABASE}
+            - MYSQL_USER = ${MYSQL_USER}
+            - MYSQL_PASSWORD = ${MYSQL_PASSWORD}
+            - MYSQL_ROOT_PASSWORD = ${MYSQL_ROOT_PASSWORD}
+            - DATABASE_HOST = ${DATABASE_HOST}
+            - DATABASE_PORT = ${DATABASE_PORT}
+            - TOKEN_BOT = ${TOKEN_BOT}
+            - WEBHOOK_HOST = ${WEBHOOK_HOST}
+            - WEB_SERVER_HOST = ${WEB_SERVER_HOST}
+            - WEB_SERVER_PORT = ${WEB_SERVER_PORT}
+            - LOG_LEVEL = ${LOG_LEVEL}
         build:
             context: .
             dockerfile: DockerFiles/Dockerfile-telegram-bot
