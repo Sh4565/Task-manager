@@ -29,8 +29,8 @@ $ certbot --nginx
 The obtained files will be located at /etc/letsencrypt/live/YOUR-DOMAIN/, where YOUR-DOMAIN is your registered domain name. Move the files to the .ssl directory:
 
 ```shell
-cp /etc/letsencrypt/live/YOUR-DOMAIN/privkey.pem ./.ssl/privkey.pem
-cp /etc/letsencrypt/live/YOUR-DOMAIN/fullchain.pem ./.ssl/fullchain.pem 
+$ cp /etc/letsencrypt/live/YOUR-DOMAIN/privkey.pem ./.ssl/privkey.pem
+$ cp /etc/letsencrypt/live/YOUR-DOMAIN/fullchain.pem ./.ssl/fullchain.pem 
 ```
 
 ### Initializing and starting the project
